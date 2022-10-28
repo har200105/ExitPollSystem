@@ -1,0 +1,148 @@
+.welcomeContainer {
+    position: absolute;
+    left: 25rem;
+    top: 25rem;
+    width: calc(100vw - 25rem);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #141d22;
+}
+
+.topWlcomePart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 10rem;
+}
+
+.topWlcomePart h1 {
+    letter-spacing: 1px;
+    font-size: 3.4rem;
+}
+
+
+@keyframes waves {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+
+    10% {
+        -webkit-transform: rotate(14deg);
+        transform: rotate(14deg);
+    }
+
+    20% {
+        -webkit-transform: rotate(-8deg);
+        transform: rotate(-8deg);
+    }
+
+    30% {
+        -webkit-transform: rotate(14deg);
+        transform: rotate(14deg);
+    }
+
+    40% {
+        -webkit-transform: rotate(-4deg);
+        transform: rotate(-4deg);
+    }
+
+    50% {
+        -webkit-transform: rotate(10deg);
+        transform: rotate(10deg);
+    }
+
+    60% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+
+    to {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+}
+
+.topWlcomePart #metaBtn {
+    margin-left: 50%;
+    outline: none;
+    padding: 0.8rem 3rem;
+    background-color: #12181b;
+    border: 2px solid #09c372;
+    font-size: 1.7rem;
+    border-radius: 4px;
+    box-shadow: 0 1rem 2rem 0.4rem rgba(0, 0, 0, 0.5);
+}
+
+#connected {
+    margin-right: 7rem;
+    outline: none;
+    border: none;
+    padding: 0.8rem 3rem;
+    background-color: #09c372c4;
+    font-size: 1.7rem;
+    border-radius: 4px;
+    box-shadow: 0 1rem 2rem 0.4rem rgba(0, 0, 0, 0.5);
+}
+
+.topWlcomePart #metaBtn:hover {
+    background-color: #09c372;
+}
+
+.welcomeContainer h1 {
+    margin-left: 5rem;
+    font-size: 3rem;
+}
+
+.middleWelcomeDiv {
+    border-bottom: 1px dashed gray;
+    padding-bottom: 1rem;
+}
+
+.connectionProcess {
+    margin-left: 5rem;
+    margin-top: 3rem;
+}
+
+.connectionProcess h2 {
+    font-size: 2.3rem;
+}
+
+.connectionProcess .steps {
+    margin-left: 4rem;
+    margin-top: 3rem;
+}
+
+.connectionProcess .steps h3 {
+    font-size: 2rem;
+    color: rgb(179, 166, 166);
+    margin-bottom: 2rem;
+}
+
+.accountDetails {
+    margin-left: 5rem;
+    margin-top: 3rem;
+}
+
+.accountDetails h2 {
+    font-size: 2.3rem;
+}
+
+.accountAddress {
+    margin-left: 4rem;
+    width: fit-content;
+    padding: 1rem 2rem;
+    padding-top: 2.5rem;
+    border-radius: 5px;
+    background-color: #12181b;
+    border: 2px solid #9166cc;
+    margin-top: 3rem;
+}
+
+.accountAddress h3 {
+    font-size: 2rem;
+    color: rgb(223, 205, 205);
+    margin-bottom: 2rem;
+}

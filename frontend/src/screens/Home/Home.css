@@ -1,0 +1,88 @@
+.homeContainer {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    width: 100vw;
+    height: calc(100vh - 6rem);
+    background-color: #141d22;
+}
+
+.homeMain {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+
+
+.rightHomeSide {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.rightHomeSide h1 {
+    line-height: 4.5rem;
+    word-spacing: 4px;
+    letter-spacing: 1px;
+    margin-top: 5rem;
+    text-align: center;
+    font-size: 3rem;
+}
+
+.rightHomeSide h1 #blockchain {
+    margin-left: 1rem;
+    padding: 0 4px;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+}
+
+.rightHomeSide #homeInfo {
+    margin-top: 9rem;
+    text-align: center;
+    font-size: 2.7rem;
+    line-height: 3.5rem;
+    word-spacing: 2px;
+    letter-spacing: 1px;
+}
+
+.homeBtnGroup {
+    margin-top: 9rem;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.rightHomeSide .letstart {
+    margin-right: 4rem;
+    background-color: #12181b;
+    text-decoration: none;
+    color: white;
+    padding: 0.8rem 3rem;
+    border: 2px solid #09c372;
+    font-size: 1.7rem;
+    border-radius: 4px;
+    box-shadow: 0 1rem 2rem 0.4rem rgba(0, 0, 0, 0.5);
+}
+
+.rightHomeSide .letstart:hover {
+    background-color: #09c372;
+}
+
+.rightHomeSide .readmore {
+    background-color: #12181b;
+    text-decoration: none;
+    color: white;
+    padding: 0.8rem 3rem;
+    border: 2px solid #fa8142;
+    font-size: 1.7rem;
+    border-radius: 4px;
+    box-shadow: 0 1rem 2rem 0.4rem rgba(0, 0, 0, 0.5);
+}
+
+.rightHomeSide .readmore:hover {
+    background-color: #fa8142;
+}

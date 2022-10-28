@@ -1,0 +1,87 @@
+.phaseContainer {
+    position: absolute;
+    /* left: 25rem; */
+    top: 10rem;
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #141d22;
+}
+
+.mainPhase {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mainPhase h1 {
+    text-align: center;
+    font-family: monospace;
+    margin-top: 2rem;
+    color: black;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
+    padding: 1rem 2rem;
+    letter-spacing: 1px;
+    border-radius: 5px;
+}
+
+.phaseInfo {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.phaseInfo h2 {
+    margin-top: 5rem;
+    font-size: 3rem;
+    letter-spacing: 1px;
+}
+
+.phaseBtnChng {
+    letter-spacing: 1px;
+    margin-top: 5rem;
+    width: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #fa8142;
+    font-size: 2.5rem;
+    padding: 1.2rem 2rem;
+    box-shadow: 0 1rem 2rem 5px rgba(0, 0, 0, 0.5);
+}
+
+.phaseBtnChng:hover {
+    background-color: #fa8142;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+.updateResultBtn {
+    letter-spacing: 1px;
+    margin-top: 5rem;
+    width: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #09c372;
+    border-radius: 7px;
+    outline: none;
+    font-size: 2.5rem;
+    padding: 1.2rem 2rem;
+    color: black;
+    box-shadow: 0 1rem 2rem 5px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease;
+}
+
+.updateResultBtn:hover {
+    transform: translateY(-5px);
+}

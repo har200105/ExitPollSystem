@@ -1,0 +1,151 @@
+.MainStatusVoter {
+    position: absolute;
+    left: 25rem;
+    top: 10rem;
+    width: calc(100vw);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: #141d22;
+}
+
+.MainStatusVoter h1 {
+    font-size: 5.5rem;
+}
+
+.voteRegistrationMain {
+    position: absolute;
+    left: 15rem;
+    top: 10rem;
+    width: calc(100vw - 25rem);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #141d22;
+}
+
+#headingForRegistration {
+    color: rgb(255, 255, 255);
+    font-family: monospace;
+    margin-top: 3rem;
+    font-size: 3rem;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
+}
+
+.formMain {
+    padding: 3rem;
+    width: 90%;
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: row;
+    background-color: #17181c;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5), 0 -1rem 1.2rem rgba(0, 0, 0, 0.5);
+}
+
+.leftSideRegistrationPart {
+    width: 40%;
+    height: 100%;
+}
+
+.leftSideRegistrationPart img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.rightSideRegistrationPart {
+    /* background: rgb(0, 34, 62); */
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputVoteBox {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 2rem;
+    border-bottom: 1px solid #fa8142;
+    border-left: 1px solid #fa8142;
+    border-right: 1px solid #fa8142;
+
+    padding: 2rem 1rem;
+    margin-bottom: 1.8rem;
+    border-radius: 0.5rem;
+}
+
+.inputVoteBox .fa-solid {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    color: rgb(228, 218, 218);
+}
+
+.inputVoteBoxGroup {
+    display: flex;
+    width: 100%;
+    gap: 2rem;
+}
+
+.VotingRegisterInputField {
+    padding: 2rem 1rem;
+    width: 100%;
+    height: 2rem;
+    color: rgb(242, 242, 242);
+    border: none;
+    outline: none;
+    font-size: 1.6rem;
+    /* background-color: rgb(232, 240, 240); */
+    background-color: transparent;
+}
+
+.btnGroupVoteRegister {
+    width: 100%;
+    margin-top: 2.2rem;
+}
+
+.regiterVotebumtBtn {
+    color: rgb(16, 15, 15);
+    font-size: 1.8rem;
+    padding: 0.8rem 0;
+    outline: none;
+    border: none;
+    background-color: rgb(42, 255, 138);
+    border-radius: 1.3rem;
+    transition: all 0.1s ease;
+    width: 45%;
+    transition: all 0.2s ease-in-out;
+}
+
+.regiterVotebumtBtn:hover {
+    transform: translateY(-5px);
+    background-color: rgb(10, 255, 120);
+}
+
+.resetVoteBtn {
+    color: rgb(16, 15, 15);
+    font-size: 1.8rem;
+    padding: 0.8rem 0;
+    outline: none;
+    border: none;
+    background-color: #3b82f6;
+    border-radius: 1.3rem;
+    transition: all 0.1s ease;
+    width: 45%;
+    margin-left: 5rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.resetVoteBtn:hover {
+    transform: translateY(-5px);
+    background-color: #3b82f6;
+}

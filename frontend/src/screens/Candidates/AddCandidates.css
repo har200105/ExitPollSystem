@@ -1,0 +1,170 @@
+.MainStatusCandidate {
+  /* align-items: center; */
+  min-width: calc(100vw - 27rem);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #141d22;
+}
+
+.MainStatusCandidate h1 {
+  font-size: 5.5rem;
+}
+
+.addCandidatesConatiner {
+  position: absolute;
+  left: 25rem;
+  top: 15rem;
+  min-width: calc(100vw - 27rem);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background: #141d22;
+}
+
+.addCandidateMain {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.addCandidateMain h1 {
+  text-align: center;
+  font-family: monospace;
+  margin-top: 2rem;
+  color: black;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
+  padding: 1rem 2rem;
+  letter-spacing: 1px;
+  border-radius: 5px;
+}
+
+.addCandidateinputFormMain {
+  margin-top: 5rem;
+  width: 80%;
+}
+.addCandidateForm {
+  width: 100%;
+  padding: 2rem 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.addCandidateInputBox {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  border-bottom: 1px solid #fa8142;
+  border-left: 1px solid #fa8142;
+  border-right: 1px solid #fa8142;
+  border-top: 1px solid #fa8142;
+
+  height: 2rem;
+  padding: 2rem 1rem;
+  margin-bottom: 1.8rem;
+  border-radius: 0.5rem;
+}
+.addCandidateInputBox .fa-solid {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  color: rgb(228, 218, 218);
+}
+
+.addCandidateInput {
+  padding: 2rem 1rem;
+  width: 100%;
+  height: 2rem;
+  color: rgb(242, 242, 242);
+  border: none;
+  outline: none;
+  font-size: 1.6rem;
+  background-color: transparent;
+}
+
+.canFormbtnGrp {
+  width: 80%;
+  margin-top: 2.2rem;
+}
+
+.regiterCanBtn {
+  color: rgb(16, 15, 15);
+  font-size: 1.8rem;
+  padding: 0.8rem 0;
+  outline: none;
+  border: none;
+  background-color: rgb(42, 255, 138);
+  margin-left: 1rem;
+  border-radius: 1.3rem;
+  transition: all 0.1s ease;
+  width: 45%;
+  transition: all 0.2s ease-in-out;
+}
+
+.regiterCanBtn:hover {
+  transform: translateY(-5px);
+  background-color: rgb(10, 255, 120);
+}
+.resetCanBtn {
+  color: rgb(16, 15, 15);
+  font-size: 1.8rem;
+  padding: 0.8rem 0;
+  outline: none;
+  border: none;
+  background-color: #3b82f6;
+  border-radius: 1.3rem;
+  transition: all 0.1s ease;
+  width: 45%;
+  margin-left: 5rem;
+  transition: all 0.2s ease-in-out;
+}
+.resetCanBtn:hover {
+  transform: translateY(-5px);
+  background-color: #3b82f6;
+}
+
+input[type="file"] {
+  background: transparent;
+  color: white;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  filter: invert(100%);
+}
+input[type="file"] {
+  margin-right: 19.5rem;
+}
+
+input[type="file"]:before {
+  color: rgb(136, 128, 128);
+  content: attr(placeholder) !important;
+  margin-right: 1.5rem;
+}
+
+.fileInputBox {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  padding: 2rem 1rem;
+  margin-bottom: 1.8rem;
+  border: 1px solid #3b82f6;
+  border-radius: 0.5rem;
+}
+.fileInputBox .fa-solid {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  color: rgb(228, 218, 218);
+}
+.fileInput {
+  width: 100%;
+  color: rgb(242, 242, 242);
+  border: none;
+  outline: none;
+  font-size: 1.6rem;
+  background-color: transparent;
+}

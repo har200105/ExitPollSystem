@@ -1,0 +1,195 @@
+.AinformationMain {
+    position: absolute;
+    top: 10rem;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #141d22;
+}
+
+.AtopWlcomePart {
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    width: 100%;
+    height: 10rem;
+    border-bottom: 1px dashed grey;
+}
+
+.AtopWlcomePart h1 {
+    margin-left: 4rem;
+    letter-spacing: 1px;
+    font-size: 3.4rem;
+}
+
+#awave {
+    display: inline-block;
+    animation: waves 2s ease infinite;
+    font-size: 4rem;
+    transform-origin: 70% 70%;
+}
+
+@keyframes waves {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+
+    10% {
+        -webkit-transform: rotate(14deg);
+        transform: rotate(14deg);
+    }
+
+    20% {
+        -webkit-transform: rotate(-8deg);
+        transform: rotate(-8deg);
+    }
+
+    30% {
+        -webkit-transform: rotate(14deg);
+        transform: rotate(14deg);
+    }
+
+    40% {
+        -webkit-transform: rotate(-4deg);
+        transform: rotate(-4deg);
+    }
+
+    50% {
+        -webkit-transform: rotate(10deg);
+        transform: rotate(10deg);
+    }
+
+    60% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+
+    to {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+}
+
+.AtopWlcomePart #ametaBtn {
+    margin-left: 20rem;
+    outline: none;
+    padding: 0.8rem 3rem;
+    background-color: #12181b;
+    border: 2px solid #09c372;
+    font-size: 1.7rem;
+    border-radius: 4px;
+    box-shadow: 0 1rem 2rem 0.4rem rgba(0, 0, 0, 0.5);
+}
+
+#aconnected {
+    margin-left: 20rem;
+    outline: none;
+    border: none;
+    padding: 0.8rem 3rem;
+    background-color: #09c372bb;
+    font-size: 1.7rem;
+    border-radius: 4px;
+    box-shadow: 0 1rem 2rem 0.4rem rgba(0, 0, 0, 0.5);
+}
+
+.AtopWlcomePart #ametaBtn:hover {
+    background-color: #09c372;
+}
+
+.AwelcomeContainer h1 {
+    margin-left: 5rem;
+    font-size: 3rem;
+}
+
+.AaccountDetails {
+    padding-left: 5rem;
+    margin-top: 3rem;
+    height: 23rem;
+    border-bottom: 1px dashed grey;
+}
+
+.AaccountDetails h2 {
+    font-size: 2.3rem;
+}
+
+.AaccountAddress {
+    margin-left: 4rem;
+    width: fit-content;
+    padding: 1rem 2rem;
+    padding-top: 2.5rem;
+    border-radius: 5px;
+    background-color: #12181b;
+    border: 2px solid #09c372;
+    margin-top: 3rem;
+    box-shadow: 0 1rem 2rem #09c37213, 0 -1rem 2rem #09c37213;
+}
+
+.AaccountAddress h3 {
+    font-size: 2rem;
+    color: rgb(223, 205, 205);
+    margin-bottom: 2rem;
+}
+
+.adminPower {
+    padding-left: 5rem;
+    margin-top: 3rem;
+    min-height: 18rem;
+    border-bottom: 1px dashed grey;
+}
+
+.adminPower h2 {
+    font-size: 2.3rem;
+}
+
+.addCandidate {
+    margin-top: 5rem;
+}
+
+.addCandidate h3 {
+    font-size: 3rem;
+    color: #09c372;
+    margin: 2rem;
+}
+
+.fa-circle-plus,
+.fa-file-pen {
+    padding-right: 1rem;
+    font-size: 2.1rem;
+}
+
+#addCanBtn {
+    width: max-content;
+    text-decoration: none;
+    color: white;
+    background-color: #12181b;
+    border: 1px solid #09c372;
+    padding: 1.3rem 2.2rem;
+    border-radius: 0.5rem;
+    font-size: 2rem;
+    box-shadow: 0 1rem 2rem 0.4rem rgba(0, 0, 0, 0.5);
+}
+
+#addCanBtn:hover {
+    background-color: #09c372;
+    border: 1px solid #09c372;
+}
+
+#phaseBtn {
+    margin-left: 7rem;
+    width: max-content;
+    text-decoration: none;
+    color: white;
+    background-color: #12181b;
+    border: 1px solid #09c372;
+    padding: 1.3rem 2.2rem;
+    border-radius: 0.5rem;
+    font-size: 2rem;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
+}
+
+#phaseBtn:hover {
+    background-color: #09c372;
+    border: 1px solid #09c372;
+}

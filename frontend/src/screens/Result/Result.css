@@ -1,0 +1,163 @@
+.resultConatiner,
+.StatusOfResultVote,
+.ResultWait {
+    position: absolute;
+    left: 25rem;
+    top: 10rem;
+    min-width: calc(100vw - 27rem);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #141d22;
+}
+
+.StatusOfResultVote,
+.ResultWait {
+    justify-content: center;
+}
+
+.StatusOfResultVote h1,
+.ResultWait h1 {
+    text-align: center;
+    font-size: 5.3rem;
+}
+
+.renderCondition {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.resultMain {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.resultMain h1 {
+    margin: 2rem 0;
+    letter-spacing: 1px;
+}
+
+.winnerInfo {
+    position: relative;
+    width: 80%;
+    height: 45vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(9, 68, 105);
+    border-radius: 1rem;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
+}
+
+.winnerImg {
+    width: 40%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.winnerImg img {
+    width: 28rem !important;
+    height: 28rem !important;
+    border-radius: 50%;
+    object-fit: cover;
+    background-position: center;
+}
+
+.winnerName {
+    border-left: 1px dashed white;
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#winnerHead {
+    border-bottom: 1px dashed white;
+    padding-bottom: 1rem;
+    text-align: center;
+    font-size: 3rem;
+    margin: 2rem 0;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+#PopperDiv {
+    position: absolute;
+    bottom: 3rem;
+    right: 5rem;
+}
+
+#partyPopperImg {
+    transform: rotate(258deg);
+    width: 15rem;
+}
+
+.winnerName h2 {
+    font-size: 2.3rem;
+    margin-top: 2rem;
+    padding-left: 5rem;
+}
+
+.runnerUpTableConatiner {
+    width: 80%;
+    margin-top: 7rem;
+    background-color: #094469;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
+    margin-bottom: 3rem;
+}
+
+.runnerUpTable {
+    width: 100%;
+}
+
+.table-heading {
+    background: #094469;
+}
+
+.table-heading th {
+    padding: 0.5rem;
+    font-size: 2.5rem;
+    text-align: center;
+    border-bottom: 1px solid white;
+    border-right: 1px solid rgba(255, 255, 255, 0.463);
+}
+
+.table-heading th:last-child {
+    border-right: none;
+}
+
+.runnerUpTableBody {
+    background: rgba(9, 68, 105, 0.5);
+}
+
+.runnerUpTableBody tr:hover {
+    background: rgb(6, 112, 177);
+}
+
+.runnerUpTableBody td {
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    border-right: 1px solid rgba(255, 255, 255, 0.47);
+}
+
+.runnerUpTableBody td:last-child {
+    border-right: none;
+}
+
+.runnerUpTableBody tr:last-child td {
+    border-bottom: none;
+}
