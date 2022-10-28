@@ -42,7 +42,7 @@ const VoteRegistration = () => {
 
   const addVoterToBlockchain = async (currentVotervoterId) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const ElectionContarct = new ethers.Contract(
+    const ElectionContract = new ethers.Contract(
       contractAddress,
       electionAbi,
       provider
@@ -50,7 +50,7 @@ const VoteRegistration = () => {
     const signer = provider.getSigner();
     try {
       if (currentVotervoterId != "") {
-        const tx = await ElectionContarct.connect(signer).voterRegisteration(
+        const tx = await ElectionContract.connect(signer).voterRegisteration(
           currentVotervoterId.toString()
         );
 
