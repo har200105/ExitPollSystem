@@ -6,7 +6,6 @@ import { contractAddressValue } from "../../../constants/constants";
 import { useNavigate } from "react-router-dom";
 import VoterNavbar from "../../../components/VoterNavbar";
 import electionAbi from "../../../Contracts/Election.json";
-const contractAddress = contractAddressValue;
 
 
 const ChangePhase = () => {
@@ -17,7 +16,7 @@ const ChangePhase = () => {
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const ElectionContarct = new ethers.Contract(
-    contractAddress,
+    contractAddressValue,
     electionAbi,
     provider
   );
@@ -27,7 +26,7 @@ const ChangePhase = () => {
   const retriveElectionResult = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const ElectionContarct = new ethers.Contract(
-      contractAddress,
+      contractAddressValue,
       electionAbi,
       provider
     );
@@ -51,13 +50,13 @@ const ChangePhase = () => {
         if (
           accounts[0].toString() != "0x101a7331a6b9febe2e0eeb78c81709555600de95"
         ) {
-          navigate("/adminwelcome");
+          navigate("/admin-welcome");
         }
       } catch (e) {
-        navigate("/adminwelcome");
+        navigate("/admin-welcome");
       }
     } else {
-      navigate("/adminwelcome");
+      navigate("/admin-welcome");
     }
   };
 

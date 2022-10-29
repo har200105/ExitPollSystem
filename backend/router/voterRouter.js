@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Voter = require("../models/voter");
-const Candidate = require("../models/candidate");
 const bcrypt = require("bcrypt");
 const authentication = require("../middleware/authenticate");
 const { authorizeAdmin } = require("../middleware/authenticationForAdmin");
@@ -21,15 +20,12 @@ router.get("/api/admin/allvoters",authorizeAdmin, async (req, res) => {
 });
 
 router.post("/api/register", async (req, res) => {
-  const { firstname, lastname, email, phoneno, password, cpassword } = req.body;
-  const existEmail = await Voter.find({ email });
+  const { firstname, lastname, email, phoneno, password } = req.body;
+  const existEmail = await Voter.findOne({ email });
 
-  if (existEmail.length > 0) {
+  if (existEmail) {
     res.status(409).json(email + " already exist !!");
   } else {
-    if (password !== cpassword) {
-      res.send("passwords are not matching").status(400);
-    } else {
       const newHashPassword = await bcrypt.hash(password.toString(), 10);
       const newVoter = new Voter({
         firstname,
@@ -37,21 +33,18 @@ router.post("/api/register", async (req, res) => {
         phoneno,
         email,
         password: newHashPassword,
-        cpassword,
       });
       const result = await newVoter.save();
-      res.send(JSON.stringify(result)).status(201);
-    }
+      res.json(JSON.stringify(result)).status(201);
   }
 });
 
 
 
 router.post("/api/login", async (req, res) => {
-  console.log(req.body);
   const { email, password } = req.body;
-  const findVoter = await Voter.findOne({ email: email });
-  if (findVoter !== null) {
+  const findVoter = await Voter.findOne({ email });
+  if (findVoter) {
     const validPassword = await bcrypt.compare(
       password.toString(),
       findVoter.password
@@ -75,11 +68,9 @@ router.post("/api/login", async (req, res) => {
 });
 
 router.get("/api/voteregistration", authentication, async(req, res) => {
-  await Voter.findOne({ _id: req.currentVoterId }).then((data) => {
-    
+  await Voter.findById(req.currentVoterId).then((data) => {
       res.status(200).json(data);
   });
-
 });
 
 router.post("/api/voteregistration", async (req, res) => {

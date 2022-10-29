@@ -34,14 +34,6 @@ const VoterSchema = new mongoose.Schema(
       type: Date,
       default: new Date(),
     },
-    Tokens: [
-      {
-        token: {
-          type: String,
-        },
-      },
-    ],
-
     voterIdCard: {
       type: Number,  
     },
@@ -77,6 +69,6 @@ VoterSchema.methods.generateToken = async function () {
   return token;
 };
 
-const Voter = new mongoose.model("Voter", VoterSchema);
+const Voter =  mongoose.model("Voter", VoterSchema);
 
 module.exports = Voter;

@@ -6,10 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
 import { contractAddressValue } from "../../constants/constants";
 import electionAbi from "../../Contracts/Election.json";
+import { API } from "../../constants/api";
+import { useSelector } from "react-redux";
 const contractAddress = contractAddressValue;
 
 const VoteRegistration = () => {
-  const [hasData, setHasData] = useState(false);
   const [voterDetails, setVoterDetails] = useState({
     adharCard: "",
     voterno: "",
@@ -21,9 +22,9 @@ const VoteRegistration = () => {
   });
 
   const navigate = useNavigate();
-  const [Renderd, setRenderd] = useState(true);
-  const [currentVoterID, setCurrentVoterId] = useState("");
   const [statusOfPage, setStatusOfPage] = useState(true);
+
+  const { user } = useSelector((state) => state.user);
 
   const checkState = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -103,65 +104,12 @@ const VoteRegistration = () => {
     }
   };
 
-  const getCurrentVoter = async () => {
-    try {
-      const response = await fetch("/api/voteregistration", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-
-      const data = await response.json();
-       if (data && data.adharCard !== null && data.voterId !== null) {
-         console.log(`Has Data`);
-          setHasData(true)
-      }
-       
-      if (response.status === 200) {
-        setCurrentVoterId(data);
-        setRenderd(true);
-      } else if (response.status === 401) {
-        navigate("/login");
-        setTimeout(function () {
-          toast.error("Please Login First", {
-            style: {
-              fontSize: "15px",
-              letterSpacing: "1px",
-            },
-            position: "bottom-right",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        }, 1000);
-      } else {
-        setRenderd(true);
-        throw new Error(response.error);
-      }
-    } catch (e) {
-      console.log("Errorrrrr : " + e);
-      navigate("/login");
-    }
-  };
-  var zz = true;
   useEffect(() => {
-    if (zz) {
-      // getCurrentVoter();
       checkState();
-      zz = false;
-    }
   }, []);
 
   const HandleVoterDetailsChanges = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setVoterDetails({ ...voterDetails, [name]: value });
+    setVoterDetails({ ...voterDetails, [e.target.name]: e.target.value });
   };
 
   const resetVoterBtnFunc = () => {
@@ -218,7 +166,7 @@ const VoteRegistration = () => {
         return;
       }
       if (adharCard.length !== 12) {
-        toast.error("Adhar Card Number must be 12 Numbers", {
+        toast.error("Aadhar Card Number must be 12 Numbers", {
           style: {
             fontSize: "15px",
             letterSpacing: "1px",
@@ -249,13 +197,8 @@ const VoteRegistration = () => {
         });
         return;
       }
-      const response = await fetch("/api/voteregistration", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          cid: currentVoterID,
+      const response = await API.post('/api/voteregistration',{
+          cid: user?._id,
           adharCard,
           voterno,
           birthdate,
@@ -263,9 +206,8 @@ const VoteRegistration = () => {
           city,
           rstate,
           address,
-        }),
-      });
-      const data = await response.json();
+        })
+      const data = response.data;
 
       if (response.status === 201) {
         toast.success("Sucessfully registered to Db", {
@@ -336,7 +278,7 @@ const VoteRegistration = () => {
   return (
     <>
          <VoterNavbar/>
-          {true ? statusOfPage ? (
+          {user &&  statusOfPage ? (
             <>
               <div className="voteRegistrationMain">
                 <ToastContainer theme="colored" />
@@ -466,12 +408,6 @@ const VoteRegistration = () => {
           <div className="MainStatusVoter">
                 <h1>You have already Added your Data</h1>
               </div>
-          ): (
-            <>
-              <div className="MainStatusVoter">
-                <h1>Registration Phase Is Over !!</h1>
-              </div>
-            </>
           )}
         </>
   );

@@ -3,7 +3,8 @@ import { loadUserService, loginService, registerService } from "../services/user
 
 const initialState = {
     user:null,
-    isAuthenticated: false,  
+    isAuthenticated: false, 
+    isAdmin:false,
     loading: false,
     error: null,
     message: null,
@@ -72,6 +73,9 @@ const authSlice = createSlice({
             if (action.payload?.success) {
                 state.user = action.payload?.user;
                 state.isAuthenticated = true;
+                if (action.payload?.user?.role === "admin") {
+                    state.isAdmin = true;
+                }
             }
         }
         

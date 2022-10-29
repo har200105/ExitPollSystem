@@ -1,13 +1,13 @@
 
 import React from "react";
-import "./VoterNavbar.css";
+import "./AdminNavbar.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { authActions } from "../redux/reducers/user";
 import { useDispatch,useSelector } from "react-redux";
 import { useEffect } from "react";
 
 
-const Navbar = () => {
+const AdminNavbar = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,10 +21,10 @@ const Navbar = () => {
   }
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated || !isAdmin) {
       navigate("/login");
     }
-   }, [isAuthenticated]);
+   }, [isAuthenticated,isAdmin]);
 
   return (
     <>
@@ -33,13 +33,13 @@ const Navbar = () => {
           <li style={{
             listStyle: "none"
           }}>
-              <NavLink className="header" to="/welcome">Exit Poll System</NavLink>
+              <NavLink className="header" to="/admin-welcome">Exit Poll System</NavLink>
             </li>
         </div>
         <div className="rightSideNavbar">
           <ul>
             <li>
-              <NavLink to={isAdmin ? "/admin-welcome":"/welcome"}>Welcome</NavLink>
+              <NavLink to="/admin-welcome">Welcome</NavLink>
             </li>
             <li>
               <NavLink to="/result">Result</NavLink>
@@ -48,10 +48,10 @@ const Navbar = () => {
               <NavLink to="/candidates">Candidates</NavLink>
             </li>
             <li>
-              <NavLink to="/voting">Voting</NavLink>
+              <NavLink to="/change-phase">Change Phase</NavLink>
             </li>
              <li>
-              <NavLink to="/voter-registration">Voter Registration</NavLink>
+              <NavLink to="/add-candidates">Add Candidates</NavLink>
             </li>
             <li>
                <NavLink to="/login" onClick={()=>logout()}>Logout</NavLink>
@@ -63,4 +63,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default AdminNavbar;

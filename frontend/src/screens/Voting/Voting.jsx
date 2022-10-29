@@ -68,22 +68,17 @@ const VotingArea = () => {
   }, []);
 
   const VoteCountFunc = async (e) => {
-    const candidateName = e.target.parentNode.parentNode
+    const partyName = e.target.parentNode.parentNode
       .querySelector("#cname")
       .innerHTML.toString();
 
-    const responseForUpdationVoter = await fetch("/api/currentvoter", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const responseForUpdationVoter = await API.post("/api/currentvoter");
 
-    const DataForVoter = await responseForUpdationVoter.json();
+    const DataForVoter = responseForUpdationVoter.data;
     if (responseForUpdationVoter.status === 201) {
       
       const response = await API.post("/api/countvotes", {
-          currentcandidatename: candidateName,
+          partyName,
         });
 
       const data = await response.json();

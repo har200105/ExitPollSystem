@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import VoterNavbar from "../../components/VoterNavbar";
+import AdminNavbar  from "../../components/AdminNavbar";
 import "./Result.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { ethers } from "ethers";
 import electionAbi from "../../Contracts/Election.json";
 import { contractAddressValue } from "../../constants/constants";
+import { useSelector } from "react-redux";
+import { API } from "../../constants/api";
 const contractAddress = contractAddressValue;
 
 const Result = () => {
@@ -15,6 +18,8 @@ const Result = () => {
   const [PhaseOfElection, setPhaseOfElection] = useState(198);
   const [resultCandidates, setResultCandidates] = useState([]);
   const [winnerDetails, setwinnerDetails] = useState([]);
+
+  const { isAdmin } = useSelector((state) => state.user);
 
   const getCandidatesDataFromBlockchain = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -52,15 +57,9 @@ const Result = () => {
   };
 
   const getCandidatesData = async () => {
-    const response = await fetch("/api/resultcandidates", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await API.get("/api/resultparties");
 
-    const data = await response.json();
+    const data = response.data;
     if (response.status === 200) {
       setRenderd(true);
       getCandidatesDataFromBlockchain();
@@ -101,7 +100,7 @@ const Result = () => {
     <>
       {Renderd && (
         <>
-          <VoterNavbar />
+         {isAdmin ? <AdminNavbar/> : <VoterNavbar />}
           <ToastContainer theme="colored" />
           {PhaseOfElection === 2 ? (
             <>

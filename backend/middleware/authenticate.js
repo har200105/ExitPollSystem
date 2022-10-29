@@ -5,9 +5,7 @@ const authentication = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     const verifyToken = jwt.verify(token, process.env.Token_Private_Key);
-    const currentVoter = await Voter.findOne({
-      _id: verifyToken.id,
-    });
+    const currentVoter = await Voter.findById(verifyToken.id);
     if (!currentVoter) {
       res.status(401);
       throw new Error(`Voter not found`);

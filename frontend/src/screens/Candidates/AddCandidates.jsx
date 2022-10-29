@@ -10,6 +10,7 @@ import electionAbi from "../../Contracts/Election.json";
 const contractAddress = contractAddressValue;
 
 const AddCandidates = () => {
+
   const navigate = useNavigate();
   const [statusOfPage, setStatusOfPage] = useState(true);
   const checkOwner = async () => {
@@ -20,24 +21,24 @@ const AddCandidates = () => {
         if (
           accounts[0].toString() != "0x101a7331a6b9febe2e0eeb78c81709555600de95"
         ) {
-          navigate("/adminwelcome");
+          navigate("/admin-welcome");
         }
       } catch (e) {
-        navigate("/adminwelcome");
+        navigate("/admin-welcome");
       }
     } else {
-      navigate("/adminwelcome");
+      navigate("/admin-welcome");
     }
   };
 
   const checkState = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const ElectionContarct = new ethers.Contract(
+    const ElectionContract = new ethers.Contract(
       contractAddress,
       electionAbi,
       provider
     );
-    const StateOfCon = await ElectionContarct.ElectionState();
+    const StateOfCon = await ElectionContract.ElectionState();
     console.log(StateOfCon);
     if (StateOfCon == 0) {
       setStatusOfPage(true);
@@ -46,25 +47,18 @@ const AddCandidates = () => {
     }
   };
 
-  var zz = true;
   useEffect(() => {
-    if (zz) {
       checkOwner();
       checkState();
-      zz = false;
-    }
   }, []);
 
-  const [candidateDetails, setCandidateDetails] = useState({
-    candidatename: "",
-    partyname: "",
-    candidateage: "",
-  });
-  const [candidateImageFile, setCandidateImageFile] = useState("");
+  const [partyName, setPartyName] = useState("");
+  const [partyImageFile, setPartyImageFile] = useState("");
 
   const addCandidateToBlockChain = async () => {
+
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const ElectionContarct = new ethers.Contract(
+    const ElectionContract = new ethers.Contract(
       contractAddress,
       electionAbi,
       provider
@@ -72,20 +66,16 @@ const AddCandidates = () => {
     const signer = provider.getSigner();
 
     try {
-      const generatedCandidateId =
-        candidateDetails.partyname.replace(" ", "") +
-        candidateDetails.candidateage;
-
-      const tx = await ElectionContarct.connect(signer).addCandidate(
-        generatedCandidateId,
-        candidateDetails.candidatename,
-        candidateDetails.partyname,
-        candidateImageFile.name.toString(),
-        candidateDetails.candidateage
+      const transaction = await ElectionContract.connect(signer).addCandidate(
+        partyName,
+        partyName,
+        partyImageFile.name.toString()
       );
       console.log(`Adding To Blockchain`);
-      console.log(tx);
-      toast.info("Processing to Blockchain", {
+      console.log(transaction);
+      setPartyName("");
+      setPartyImageFile("");
+      toast.info(`Processing to Blockchain`, {
         style: {
           fontSize: "15px",
           letterSpacing: "1px",
@@ -132,50 +122,25 @@ const AddCandidates = () => {
     }
   };
 
-  const handleChanges = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setCandidateDetails({ ...candidateDetails, [name]: value });
-  };
+  
 
-  const resetBtnFunc = () => {
-    const { candidatename, partyname, cabdidateage } = candidateDetails;
-    if (candidatename !== "" || partyname !== "" || cabdidateage !== "") {
-      setCandidateDetails({
-        candidatename: "",
-        partyname: "",
-        candidateage: "",
-      });
-      setCandidateImageFile("");
-    }
-  };
+  const addPartyToDB = async (e) => {
 
-  const RegisersCanFunc = async (e) => {
     e.preventDefault();
-    const { candidatename, partyname, cabdidateage } = candidateDetails;
-    if (
-      candidatename !== "" &&
-      partyname !== "" &&
-      cabdidateage !== "" &&
-      candidateImageFile !== ""
-    ) {
-      const generatedCandidateId =
-        candidateDetails.partyname.replace(" ", "") +
-        candidateDetails.candidateage;
-
+    if(partyName !== ""){
+      
       const formData = new FormData();
-      formData.append("CandidateName", candidateDetails.candidatename);
-      formData.append("CandidatePartyName", candidateDetails.partyname);
-      formData.append("CandidateAge", candidateDetails.candidateage);
-      formData.append("CandidateId", generatedCandidateId);
-      formData.append("CandidateImage", candidateImageFile);
+      formData.append("partyId", partyName);
+      formData.append("partyName", partyName);
+      formData.append("partyLogo", partyImageFile);
 
-      const response = await fetch("/api/addcandidate", {
-        method: "POST",
-        body: formData,
+      const response = await API.post(`/api/addparty`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
       });
 
-      const data = await response.json();
+      const data = response.data;
 
       if (response.status === 201) {
         toast.success("Successfully Added Candidate To DB", {
@@ -192,7 +157,8 @@ const AddCandidates = () => {
           progress: undefined,
         });
         addCandidateToBlockChain();
-        resetBtnFunc();
+        setPartyName("");
+        setPartyImageFile("");
       } else if (response.status === 409) {
         toast.error(data, {
           style: {
@@ -261,36 +227,8 @@ const AddCandidates = () => {
                       placeholder="Enter Candidate Name"
                       autoComplete="off"
                       className="addCandidateInput"
-                      onChange={handleChanges}
-                      value={candidateDetails.candidatename}
-                      required
-                    />
-                  </div>
-
-                  <div className="addCandidateInputBox">
-                    <i className="fa-solid fa-users-rectangle"></i>
-                    <input
-                      type="text"
-                      name="partyname"
-                      placeholder="Enter Candidate Party Name"
-                      autoComplete="off"
-                      className="addCandidateInput"
-                      onChange={handleChanges}
-                      value={candidateDetails.partyname}
-                      required
-                    />
-                  </div>
-
-                  <div className="addCandidateInputBox">
-                    <i className="fa-solid fa-universal-access"></i>
-                    <input
-                      name="candidateage"
-                      type="number"
-                      placeholder="Enter Candidate Age"
-                      autoComplete="off"
-                      className="addCandidateInput"
-                      onChange={handleChanges}
-                      value={candidateDetails.candidateage}
+                      onChange={(e)=>setPartyName(e.target.value)}
+                      value={partyName}
                       required
                     />
                   </div>
@@ -303,7 +241,7 @@ const AddCandidates = () => {
                       placeholder="Upload Candidate Photo : "
                       className=" fileInput"
                       accept="image/*"
-                      onChange={(e) => setCandidateImageFile(e.target.files[0])}
+                      onChange={(e) => setPartyImageFile(e.target.files[0])}
                       required
                     />
                   </div>
@@ -312,12 +250,7 @@ const AddCandidates = () => {
                     <input
                       type="submit"
                       className="regiterCanBtn"
-                      onClick={RegisersCanFunc}
-                    />
-                    <input
-                      type="reset"
-                      className="resetCanBtn"
-                      onClick={resetBtnFunc}
+                      onClick={addPartyToDB}
                     />
                   </div>
                 </form>

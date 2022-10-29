@@ -6,10 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
 import electionAbi from "../../Contracts/Election.json";
 import { contractAddressValue } from "../../constants/constants";
+import { API } from "../../constants/api";
 
 const contractAddress = contractAddressValue;
 
 const Voters = () => {
+
   const navigate = useNavigate();
   const [Rendered, setRendered] = useState(true);
   const [TotalVotersCount, setTotalVotersCount] = useState(1);
@@ -33,15 +35,8 @@ const Voters = () => {
 
   const getAllVotersFromDB = async () => {
     try {
-      const response = await fetch("/api/admin/allvoters", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await response.json();
+      const response = await API.get("/api/admin/allvoters");
+      const data = response.data;
       if (response.status === 200) {
         setRendered(true);
         setAllVoterList(data);
@@ -55,13 +50,10 @@ const Voters = () => {
       console.log(e);
     }
   };
-  var zz = true;
+
   useEffect(() => {
-    if (zz) {
       getAllVotersFromDB();
       GetTotalVotersFromBlockchain();
-      zz = false;
-    }
   }, []);
 
   const IdFindInList = (voterId) => {

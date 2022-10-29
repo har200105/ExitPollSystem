@@ -16,7 +16,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  const {user,isAuthenticated,error,message,success} = useSelector((state) => state.user);
+  const {user,isAuthenticated,error,message,success,isAdmin} = useSelector((state) => state.user);
 
   const ValidateEmail = (email) => {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
@@ -68,14 +68,16 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate(`/welcome`);
+    if (isAdmin && isAuthenticated) {
+       navigate("/admin-welcome");
+    } else if (!isAdmin && isAuthenticated) {
+      navigate("/welcome");
     }
     if (error) {
       console.log(`Error Occurred`);
     }
     dispatch(authActions.reset());
-  },[dispatch,navigate,isAuthenticated])
+  },[dispatch,navigate,isAuthenticated,isAdmin])
 
   return (
     <>

@@ -20,7 +20,7 @@ import { ProtectedRoute } from "protected-route-react";
 
 const App = () => {
 
-  const { user, isAuthenticated } = useSelector((state) => state.user);
+  const { user, isAuthenticated,isAdmin } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
 
@@ -32,7 +32,6 @@ const App = () => {
 
   useEffect(() => {
     if (navigator.geolocation) {
-      console.log(navigator.geolocation);
       navigator.permissions
         .query({ name: "geolocation" })
         .then(function (result) {
@@ -60,17 +59,27 @@ const App = () => {
               <Welcome/>
             </ProtectedRoute>
         } />
-          <Route exact path="/admin-welcome" element={
+          <Route exact path="/admin-welcome"
+            element={
             <ProtectedRoute isAuthenticated={isAuthenticated}
-              isAdmin={user && user.role === 'admin'}
-              redirect="/login"
+                isAdmin={isAdmin}
+                adminRoute={true}
+                redirect="/login"
+                redirectAdmin="/login"
             >
               <AdminWelcome/>
             </ProtectedRoute>
-        } />
+            }
+          />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Register/>} />
-        <Route exact path="/result" element={<Result />} />
+          <Route exact path="/result" element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}
+              redirect="/login"
+            >
+              <Result/>
+            </ProtectedRoute>
+        } />
           <Route exact path="/voter-registration" element={
             <ProtectedRoute isAuthenticated={isAuthenticated}
               redirect="/login"

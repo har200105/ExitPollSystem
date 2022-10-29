@@ -6,6 +6,7 @@ import { ethers } from "ethers";
 import { NavLink, useNavigate } from "react-router-dom";
 import { API } from "../../../constants/api";
 import { useSelector } from "react-redux";
+import AdminNavbar from "../../../components/AdminNavbar";
 
 const AdminWelcome = () => {
 
@@ -17,7 +18,7 @@ const AdminWelcome = () => {
   const [CurrentAccountBalance, setCurrentAccountBalance] = useState(0.0);
   const [OnlyOwner, setOnlyOwner] = useState(false);
 
-  const {user} = useSelector((state) => state.user);
+  const {user,isAdmin,isAuthenticated} = useSelector((state) => state.user);
 
   const connectToMetamask = async (e) => {
     if (window.ethereum) {
@@ -109,8 +110,8 @@ const AdminWelcome = () => {
   },[]);
 
   return (
-        <>
-          <VoterNavbar />
+    <>
+      <AdminNavbar/>
           <div className="AinformationMain">
             <ToastContainer theme="colored" />
             <div className="AtopWlcomePart">

@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const candidateRouter = require("./router/candidateRouter");
+const partyRouter = require("./router/partyRouter");
 const voterRouter = require("./router/voterRouter");
 const adminRouter = require("./router/adminRouter");
 
@@ -31,7 +31,7 @@ app.use(function (req, res, next) {
 });
 
 app.use("/",voterRouter);
-app.use("/",candidateRouter);
+app.use("/",partyRouter);
 app.use("/",adminRouter);
 
 

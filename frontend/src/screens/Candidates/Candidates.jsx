@@ -6,11 +6,14 @@ import { ToastContainer, toast } from "react-toastify";
 import { ethers } from "ethers";
 import { contractAddressValue } from "../../constants/constants";
 import electionAbi from "../../Contracts/Election.json";
-const contractAddress = contractAddressValue;
+import { useSelector } from "react-redux";
+import AdminNavbar from "../../components/AdminNavbar";
+
 
 const Candidates = () => {
 
   const navigate = useNavigate();
+  const { isAdmin } = useSelector((state) => state.user);
   const [Renderd, setRenderd] = useState(true);
   const [Candidates, setCandidates] = useState([]);
   const [noCandidates, setNoCandidates] = useState(0);
@@ -19,7 +22,7 @@ const Candidates = () => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const ElectionContarct = new ethers.Contract(
-      contractAddress,
+      contractAddressValue,
       electionAbi,
       provider
     );
@@ -37,43 +40,8 @@ const Candidates = () => {
    }
   };
 
-  const getCandidatesData = async () => {
-    const response = await fetch("/api/admin/allcandidates", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-
-    const data = await response.json();
-
-    if (response.status === 200) {
-      setRenderd(true);
-    } else if (response.status === 404) {
-      setRenderd(true);
-    } else if (response.status === 401) {
-      navigate("/admin");
-        toast.error(data, {
-          style: {
-            fontSize: "15px",
-            letterSpacing: "1px",
-          },
-          position: "bottom-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-    } else {
-      throw new Error(response.error);
-    }
-  };
 
   useEffect(() => {
-      getCandidatesData();
       getCandidatesDataFromBlockchain();
   }, []);
 
@@ -82,7 +50,7 @@ const Candidates = () => {
       {Renderd && (
         <>
           <ToastContainer theme="colored" />
-          <VoterNavbar/>
+         {isAdmin ? <AdminNavbar/> : <VoterNavbar/>}
           {noCandidates == 0 ? (
             <>
               <div className="AdminvotingAreaConatiner">

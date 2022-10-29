@@ -6,14 +6,16 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
 const Home = () => {
-  const { isAuthenticated } = useSelector((state) => state.user);
+  const { isAuthenticated,isAdmin} = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAdmin && isAuthenticated) {
+       navigate("/admin-welcome");
+    } else if (!isAdmin && isAuthenticated) {
       navigate("/welcome");
     }
-  },[isAuthenticated])
+  },[isAuthenticated,isAdmin])
   return (
     <>
       <Navbar />

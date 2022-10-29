@@ -1,33 +1,31 @@
 const express = require("express");
 const { authorizeAdmin } = require("../middleware/authenticationForAdmin");
-const Candidate = require("../models/candidate");
+const Party = require("../models/party");
 const router = express.Router();
 
 
-
-
 router.get(
-  "/api/admin/allcandidates",
+  "/api/admin/allparties",
   authorizeAdmin,
   async (req, res) => {
-    const allCamdidates = await Candidate.find({});
-    if (allCamdidates.length == 0) {
-      res.status(404).json("No Candidate found");
+    const allParties = await Party.find({});
+    if (allParties.length == 0) {
+      res.status(404).json("No Party found");
     } else {
-      res.status(200).json(allCamdidates);
+      res.status(200).json(allParties);
     }
   }
 );
 
 router.get(
-  "/api/admin/resultcandidates",
+  "/api/admin/resultparties",
   authorizeAdmin,
   async (req, res) => {
-    const allcandidates = await Candidate.find({}).sort({ TotalVotes: -1 });
-    if (allcandidates.length == 0) {
+    const allParties = await Party.find({}).sort({ TotalVotes: -1 });
+    if (allParties.length == 0) {
       res.status(400).json("No Candidate found");
     } else {
-      res.status(200).json(allcandidates);
+      res.status(200).json(allParties);
     }
   }
 );
