@@ -139,11 +139,11 @@ const AdminWelcome = () => {
               <div className="addCandidate">
                 {OnlyOwner === true ? (
                   <>
-                    <NavLink to="/addcandidates" id="addCanBtn">
+                    <NavLink to="/add-candidates" id="addCanBtn">
                       <i className="fa-solid fa-circle-plus"></i>Add New
                       Candidate
                     </NavLink>
-                    <NavLink to="/phase" id="phaseBtn">
+                    <NavLink to="/change-phase" id="phaseBtn">
                       <i className="fa-solid fa-file-pen"></i>Change Phase
                     </NavLink>
                   </>

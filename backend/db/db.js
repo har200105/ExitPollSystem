@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-require("dotenv").config();
+
 
 mongoose
   .connect(process.env.DB_URL, {
@@ -7,7 +7,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("Connection Successfully established");
+    console.log(`Connection Successfully established`);
   })
   .catch((err) => {
     console.log(err);

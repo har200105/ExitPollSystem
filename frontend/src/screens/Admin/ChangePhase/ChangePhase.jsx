@@ -9,38 +9,33 @@ import electionAbi from "../../../Contracts/Election.json";
 
 
 const ChangePhase = () => {
+
   const navigate = useNavigate();
   const [currPhase, setcurrPhase] = useState("Registration");
-  const [nextPhase, setnextPhase] = useState("Change Phase To Voting");
+  const [nextPhase, setNextPhase] = useState("Change Phase To Voting");
   const [electionState, setElectionState] = useState(198);
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const ElectionContarct = new ethers.Contract(
+
+  const ElectionContract = new ethers.Contract(
     contractAddressValue,
     electionAbi,
     provider
   );
+
   const signer = provider.getSigner();
 
 
   const retriveElectionResult = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const ElectionContarct = new ethers.Contract(
-      contractAddressValue,
-      electionAbi,
-      provider
-    );
-    const signer = provider.getSigner();
 
-    const datax = await ElectionContarct.connect(
+    const datax = await ElectionContract.connect(
       signer
     ).addCandidateToResultList();
     console.log(datax);
   };
 
   const resetAll = async () => {
-    const tx = await ElectionContarct.connect(signer).resetAll();
-    console.log(tx);
+     await ElectionContract.connect(signer).resetAll();
   };
   const checkOwner = async () => {
     if (window.ethereum) {
@@ -61,37 +56,29 @@ const ChangePhase = () => {
   };
 
   const checkState = async () => {
-    const StateOfCon = await ElectionContarct.ElectionState();
+    const StateOfCon = await ElectionContract.ElectionState();
     console.log(StateOfCon);
     setElectionState(StateOfCon);
 
     if (StateOfCon === 0) {
       setcurrPhase("Registration");
-      setnextPhase("Change Phase To Voting");
+      setNextPhase("Change Phase To Voting");
     } else if (StateOfCon === 1) {
       setcurrPhase("Voting");
-      setnextPhase("Change Phase To Result");
+      setNextPhase("Change Phase To Result");
     } else if (StateOfCon === 2) {
       setcurrPhase("Result");
-      setnextPhase("Change Phase To Reset All");
+      setNextPhase("Change Phase To Reset All");
     } else if (StateOfCon === 3) {
       setcurrPhase("Reset All");
-      setnextPhase("Change Phase To Registration");
+      setNextPhase("Change Phase To Registration");
     }
-  };
+  }
 
-  const listOfCan = async () => {
-    console.log(await ElectionContarct.allCandidates());
-  };
-  var zz = true;
   useEffect(() => {
-    if (zz) {
       window.ethereum.on("accountchanged", checkOwner);
       checkOwner();
       checkState();
-      listOfCan();
-      zz = false;
-    }
   }, []);
 
   useEffect(() => {
@@ -104,18 +91,14 @@ const ChangePhase = () => {
         checkState();
       };
     }
-  });
+  },[]);
 
   const changePhaseFunc = async () => {
-    const StateOfCon = await ElectionContarct.ElectionState();
-    console.log(StateOfCon);
+    const StateOfCon = await ElectionContract.ElectionState();
 
     if (StateOfCon === 0) {
       try {
-        console.log("done");
-        const tx = await ElectionContarct.connect(signer).changeState(1);
-        console.log(tx);
-        console.log(StateOfCon);
+        await ElectionContract.connect(signer).changeState(1);
       } catch (e) {
         if (e.message.indexOf("user rejected transaction") > -1) {
           toast.error("Transaction Rejected", {
@@ -149,10 +132,7 @@ const ChangePhase = () => {
       }
     } else if (StateOfCon === 1) {
       try {
-        console.log("done");
-        const tx = await ElectionContarct.connect(signer).changeState(2);
-        console.log(tx);
-        console.log(StateOfCon);
+         await ElectionContract.connect(signer).changeState(2);
       } catch (e) {
         if (e.message.indexOf("user rejected transaction") > -1) {
           toast.error("Transaction Rejected", {
@@ -187,7 +167,7 @@ const ChangePhase = () => {
     } else if (StateOfCon === 2) {
       try {
         console.log("done");
-        const tx = await ElectionContarct.connect(signer).changeState(3);
+        const tx = await ElectionContract.connect(signer).changeState(3);
         console.log(tx);
         console.log(StateOfCon);
       } catch (e) {
@@ -224,7 +204,7 @@ const ChangePhase = () => {
     } else if (StateOfCon === 3) {
       try {
         console.log("done");
-        const txs = await ElectionContarct.connect(signer).changeState(0);
+        const txs = await ElectionContract.connect(signer).changeState(0);
         console.log(txs);
         console.log(StateOfCon);
       } catch (e) {

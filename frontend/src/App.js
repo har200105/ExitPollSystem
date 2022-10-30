@@ -89,8 +89,10 @@ const App = () => {
             } />
           <Route exact path="/voters" element={
             <ProtectedRoute isAuthenticated={isAuthenticated}
-                isAdmin={user && user.role === 'admin'}
+              isAdmin={isAdmin}
+              adminRoute={true}
               redirect="/login"
+              redirectAdmin="/login"
             >
               <Voters/>
             </ProtectedRoute>
@@ -111,8 +113,10 @@ const App = () => {
            } />
           <Route exact path="/change-phase" element={
              <ProtectedRoute isAuthenticated={isAuthenticated}
-                isAdmin={user && user.role === 'admin'}
+              isAdmin={isAdmin}
+              adminRoute={true}
               redirect="/login"
+              redirectAdmin="/login"
             >
              <ChangePhase />
             </ProtectedRoute>

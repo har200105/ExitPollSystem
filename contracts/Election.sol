@@ -13,21 +13,21 @@ contract Election {
 
     PHASE public ElectionPhase;
 
-    struct Candidate {
-        string candidate_id;
+    struct Party {
+        string party_id;
         string partyName;
         string partyImage;
         uint256 partyVotes;
     }
 
-    mapping(string => Candidate) public candidates;
-    string[] public candidate_ids_list;
-    Candidate[] candidatesList;
-    Candidate[] resultCandidatesList;
+    mapping(string => Party) public parties;
+    string[] public party_ids_list;
+    Party[] partyList;
+    Party[] resultPartiesList;
 
     struct Voter {
         string voter_id;
-        string votedCandidate_id;
+        string votedParty_id;
         bool is_registerd;
         bool hasVoted;
     }
@@ -57,9 +57,9 @@ contract Election {
             ElectionPhase == PHASE.registration,
             "Registration phase is over"
         );
-        candidates[_id] = Candidate(_id, _party, _image, 0);
-        candidate_ids_list.push(_id);
-        candidatesList.push(candidates[_id]);
+        parties[_id] = Party(_id, _party, _image, 0);
+        party_ids_list.push(_id);
+        partyList.push(parties[_id]);
         candidatesCount++;
     }
 
@@ -86,19 +86,18 @@ contract Election {
         require(voters[_id].hasVoted == false, "You have already voted");
         voters[_id].hasVoted = true;
         votersList.push(voters[_id]);
-        voters[_id].votedCandidate_id = _votedCandidate_id;
-        candidates[_votedCandidate_id].partyVotes++;
+        voters[_id].votedParty_id = _votedCandidate_id;
+        parties[_votedCandidate_id].partyVotes++;
     }
 
     function getWinner() public view returns (string memory) {
         require(ElectionPhase == PHASE.done, "Voting is not completed yet");
-        uint256 maxVotes = candidates[candidate_ids_list[0]].partyVotes;
-        string memory winner_id = candidates[candidate_ids_list[0]]
-            .candidate_id;
-        for (uint256 i = 1; i < candidate_ids_list.length; i++) {
-            if (maxVotes < candidates[candidate_ids_list[i]].partyVotes) {
-                maxVotes = candidates[candidate_ids_list[i]].partyVotes;
-                winner_id = candidates[candidate_ids_list[i]].candidate_id;
+        uint256 maxVotes = parties[party_ids_list[0]].partyVotes;
+        string memory winner_id = parties[party_ids_list[0]].party_id;
+        for (uint256 i = 1; i < party_ids_list.length; i++) {
+            if (maxVotes < parties[party_ids_list[i]].partyVotes) {
+                maxVotes = parties[party_ids_list[i]].partyVotes;
+                winner_id = parties[party_ids_list[i]].party_id;
             }
         }
         return winner_id;
@@ -106,26 +105,22 @@ contract Election {
 
     function addCandidateToResultList() public {
         require(ElectionPhase == PHASE.done, "Result Phase Is Not Started");
-        for (uint256 i = 0; i < candidate_ids_list.length; i++) {
-            resultCandidatesList.push(candidates[candidate_ids_list[i]]);
+        for (uint256 i = 0; i < party_ids_list.length; i++) {
+            resultPartiesList.push(parties[party_ids_list[i]]);
         }
     }
 
-    function getUpdatedCandidateList()
-        public
-        view
-        returns (Candidate[] memory)
-    {
+    function getUpdatedCandidateList() public view returns (Party[] memory) {
         require(ElectionPhase == PHASE.done, "Result Phase Is Not Started");
-        return resultCandidatesList;
+        return resultPartiesList;
     }
 
-    function allCandidates() public view returns (Candidate[] memory) {
-        return candidatesList;
+    function allCandidates() public view returns (Party[] memory) {
+        return partyList;
     }
 
     function getCandidateIdList() public view returns (string[] memory) {
-        return candidate_ids_list;
+        return party_ids_list;
     }
 
     function getVoterIdList() public view returns (string[] memory) {
@@ -141,9 +136,9 @@ contract Election {
 
         votersCount = 0;
         candidatesCount = 0;
-        delete candidate_ids_list;
-        delete candidatesList;
-        delete resultCandidatesList;
+        delete party_ids_list;
+        delete partyList;
+        delete resultPartiesList;
 
         for (uint256 i = 0; i < voter_ids_list.length; i++) {
             voters[voter_ids_list[i]].is_registerd = false;

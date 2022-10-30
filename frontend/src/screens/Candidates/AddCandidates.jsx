@@ -42,7 +42,7 @@ const AddCandidates = () => {
     console.log(StateOfCon);
     if (StateOfCon == 0) {
       setStatusOfPage(true);
-    } else {
+    } else {     
       setStatusOfPage(false);
     }
   };
