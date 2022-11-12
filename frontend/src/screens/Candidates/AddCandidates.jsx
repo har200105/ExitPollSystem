@@ -4,22 +4,25 @@ import VoterNavbar from "../../components/VoterNavbar";
 import { ToastContainer, toast } from "react-toastify";
 import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
-import { contractAddressValue } from "../../constants/constants";
+import { contractAddressValue, myAccount } from "../../constants/constants";
 import { API } from "../../constants/api";
 import electionAbi from "../../Contracts/Election.json";
+import { useSelector } from "react-redux";
+import AdminNavbar from "../../components/AdminNavbar";
 const contractAddress = contractAddressValue;
 
 const AddCandidates = () => {
-
+  
   const navigate = useNavigate();
   const [statusOfPage, setStatusOfPage] = useState(true);
+
   const checkOwner = async () => {
     if (window.ethereum) {
       try {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const accounts = await provider.send("eth_requestAccounts", []);
         if (
-          accounts[0].toString() != "0x101a7331a6b9febe2e0eeb78c81709555600de95"
+          accounts[0].toString() != myAccount
         ) {
           navigate("/admin-welcome");
         }
@@ -38,7 +41,7 @@ const AddCandidates = () => {
       electionAbi,
       provider
     );
-    const StateOfCon = await ElectionContract.ElectionState();
+    const StateOfCon = await ElectionContract.ElectionPhase();
     console.log(StateOfCon);
     if (StateOfCon == 0) {
       setStatusOfPage(true);
@@ -54,10 +57,14 @@ const AddCandidates = () => {
 
   const [partyName, setPartyName] = useState("");
   const [partyImageFile, setPartyImageFile] = useState("");
+  const { isAdmin } = useSelector((state) => state.user);
 
-  const addCandidateToBlockChain = async () => {
+  
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const addPartyToDB = async (e) => {
+
+    e.preventDefault();
+     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const ElectionContract = new ethers.Contract(
       contractAddress,
       electionAbi,
@@ -73,8 +80,6 @@ const AddCandidates = () => {
       );
       console.log(`Adding To Blockchain`);
       console.log(transaction);
-      setPartyName("");
-      setPartyImageFile("");
       toast.info(`Processing to Blockchain`, {
         style: {
           fontSize: "15px",
@@ -120,15 +125,7 @@ const AddCandidates = () => {
         });
       }
     }
-  };
-
-  
-
-  const addPartyToDB = async (e) => {
-
-    e.preventDefault();
-    if(partyName !== ""){
-      
+    if (partyName !== "") {
       const formData = new FormData();
       formData.append("partyId", partyName);
       formData.append("partyName", partyName);
@@ -140,73 +137,13 @@ const AddCandidates = () => {
         }
       });
 
-      const data = response.data;
-
-      if (response.status === 201) {
-        toast.success("Successfully Added Candidate To DB", {
-          style: {
-            fontSize: "15px",
-            letterSpacing: "1px",
-          },
-          position: "bottom-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        addCandidateToBlockChain();
-        setPartyName("");
-        setPartyImageFile("");
-      } else if (response.status === 409) {
-        toast.error(data, {
-          style: {
-            fontSize: "18px",
-            letterSpacing: "1px",
-          },
-          position: "bottom-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      } else {
-        toast.error("Somthing went wrong !!", {
-          style: {
-            fontSize: "18px",
-            letterSpacing: "1px",
-          },
-          position: "bottom-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
-    } else {
-      toast.error("Fill All Details !!", {
-        style: {
-          fontSize: "15px",
-          letterSpacing: "1px",
-        },
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-      });
     }
   };
+
+
   return (
     <>
-      <VoterNavbar />
+       {isAdmin ? <AdminNavbar/> : <VoterNavbar/>}
       {statusOfPage ? (
         <>
           <div className="addCandidatesConatiner">
@@ -215,9 +152,8 @@ const AddCandidates = () => {
               <h1>Add Candidates</h1>
               <div className="addCandidateinputFormMain">
                 <form
-                  method="POST"
                   className="addCandidateForm"
-                  encType="multipart/form-data"
+                  onSubmit={(e)=>addPartyToDB(e)}
                 >
                   <div className="addCandidateInputBox">
                     <i className="fa-solid fa-user-large"></i>
@@ -248,9 +184,9 @@ const AddCandidates = () => {
 
                   <div className="canFormbtnGrp">
                     <input
-                      type="submit"
                       className="regiterCanBtn"
-                      onClick={addPartyToDB}
+                      type="submit"
+                      value="Add Candidate"
                     />
                   </div>
                 </form>

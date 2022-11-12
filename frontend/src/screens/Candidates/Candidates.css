@@ -8,8 +8,8 @@ min-width: calc(100vw - 27rem);
     background: #141d22;
 }
 
-.noCandidatesMian {
-    position: absolute;
+.noCandidatesMain {
+    /* position: absolute; */
     /* left: 25rem; */
     text-align: center;
     min-width: calc(100vw - 27rem);
@@ -21,8 +21,12 @@ min-width: calc(100vw - 27rem);
     justify-content: center;
 }
 
-.noCandidatesMian h1 {
+.noCandidatesMain h1 {
     font-size: 5.3rem;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    margin: auto;
 }
 
 .AdminvotingAreaMain {

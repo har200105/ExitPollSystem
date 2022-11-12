@@ -2,21 +2,18 @@ import { useState, useEffect } from "react";
 import "./Voting.css";
 import VoterNavbar from "../../components/VoterNavbar";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
 import electionAbi from "../../Contracts/Election.json";
 import { API } from "../../constants/api";
-const contractAddress = "0xBD263F4Dd319861Ea2d93c687d2080c1477d9613";
+import { contractAddressValue } from "../../constants/constants";
+import { useSelector } from "react-redux";
+const contractAddress = contractAddressValue;
 
 const VotingArea = () => {
-  const navigate = useNavigate(); 
-  const [canName, setcanName] = useState("");
-  const [canParty, setcanParty] = useState("");
-  const [canImg, setcanImg] = useState("");
-  const [canage, setcanage] = useState("");
-  const [candidateCount, setCandidateCount] = useState(1);
+  const [candidateCount, setCandidateCount] = useState(0);
   const [Candidates, setCandidates] = useState([]);
   const [PhaseOfElec, setPhaseOfElec] = useState(198);
+  const { user } = useSelector((state) => state.user);
 
   const getCandidatesDataFromBlockchain = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -25,19 +22,21 @@ const VotingArea = () => {
       electionAbi,
       provider
     );
-    const signer = provider.getSigner();
 
     const data = await ElectionContarct.allCandidates();
-    console.log(data);
-    const phase = 1
-    const CCount = await ElectionContarct.candidatesCount();
+    const phase = await ElectionContarct.ElectionPhase();
     console.log(phase);
+    console.log(data);
+    const CCount = await ElectionContarct.candidatesCount();
     setPhaseOfElec(phase);
     setCandidates(data);
+    console.log(parseInt(CCount));
     setCandidateCount(parseInt(CCount));
   };
 
   const countVoteInBlockchain = async (voterId, candidateId) => {
+    console.log(voterId);
+    console.log(candidateId);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const ElectionContarct = new ethers.Contract(
       contractAddress,
@@ -55,85 +54,28 @@ const VotingArea = () => {
 
       console.log(tx);
     } catch (e) {
-      console.log(e);
+      console.log(e.toString());
     }
   };
 
-  var zz = true;
   useEffect(() => {
-    if (zz) {
       getCandidatesDataFromBlockchain();
-      zz = false;
-    }
   }, []);
 
   const VoteCountFunc = async (e) => {
     const partyName = e.target.parentNode.parentNode
-      .querySelector("#cname")
+      .querySelector("#cparty")
       .innerHTML.toString();
-
-    const responseForUpdationVoter = await API.post("/api/currentvoter");
-
-    const DataForVoter = responseForUpdationVoter.data;
-    if (responseForUpdationVoter.status === 201) {
-      
       const response = await API.post("/api/countvotes", {
           partyName,
         });
 
-      const data = await response.json();
+      const data = response.data;
 
-      if (response.status === 201) {
-        toast.success(data.msg, {
-          style: {
-            fontSize: "15px",
-            letterSpacing: "1px",
-          },
-          position: "bottom-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-
-        setTimeout(() => {
-          countVoteInBlockchain(DataForVoter, data.ans);
-        }, 1500);
-      } else {
-        toast.error("Somthing Went Wrong !!", {
-          style: {
-            fontSize: "18px",
-            letterSpacing: "1px",
-          },
-          position: "bottom-center",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
-    } else if (responseForUpdationVoter.status === 401) {
-      toast.error(DataForVoter, {
+    if (response.status === 201) {
+      toast.success(data.msg, {
         style: {
-          fontSize: "18px",
-          letterSpacing: "1px",
-        },
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined
-      });
-    } else {
-      toast.error(DataForVoter, {
-        style: {
-          fontSize: "18px",
+          fontSize: "15px",
           letterSpacing: "1px",
         },
         position: "bottom-right",
@@ -144,9 +86,24 @@ const VotingArea = () => {
         draggable: true,
         progress: undefined,
       });
+
       setTimeout(() => {
-        navigate("/voteregistration");
-      }, 2500);
+        countVoteInBlockchain(user?.voterId, partyName);
+      }, 1500);
+    } else {
+      toast.error("Somthing Went Wrong !!", {
+        style: {
+          fontSize: "18px",
+          letterSpacing: "1px",
+        },
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
@@ -155,63 +112,10 @@ const VotingArea = () => {
         <>
           <VoterNavbar />
           <ToastContainer theme="colored" />
-          {1 === 1 ? (
+          {PhaseOfElec === 1 ? (
             <>
-              {candidateCount == 0 ? (
+              {candidateCount != 0 ? (
                 <>
-                  <div
-                    className="modal fade modal-dialog modal-xl"
-                    id="staticBackdrop"
-                    data-bs-backdrop="static"
-                    data-bs-keyboard="false"
-                    tabIndex="-1"
-                    aria-labelledby="staticBackdropLabel"
-                    aria-hidden="true"
-                  >
-                    <div className="modal-dialog ">
-                      <div className="modal-content modal_zz">
-                        <div className="modal-header ">
-                          <h2 className="modal-title " id="staticBackdropLabel">
-                            Candidate Info
-                          </h2>
-                          <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div className="modal-body">
-                          <div className="mainModal">
-                            <div className="leftModalSide">
-                              <img src={"canImg"} alt="img" />
-                            </div>
-                            <div className="rightModalSide">
-                              <h2>Name :asasd</h2>
-                              <h2>Party : {"dfssdf"}</h2>
-                              <h2>Age : {"canagsdfe"}sdf</h2>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="modal-footer">
-                          <button
-                            type="button"
-                            className="btn btn-secondary btn-lg"
-                            data-bs-dismiss="modal"
-                          >
-                            Close
-                          </button>
-                          <button
-                            type="button"
-                            data-bs-dismiss="modal"
-                            className="btn btn-primary btn-lg"
-                          >
-                            Understood
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                   <div className="votingAreaConatiner">
                     <div className="votingAreaMain">
                       <h1>Candidates</h1>
@@ -223,54 +127,19 @@ const VotingArea = () => {
                               key={can.candidate_id}
                             >
                               <img
-                                src={`/uploads/${can.candidate_imageName}`}
+                                src={`/uploads/${can.partyImage}`}
                                 alt="img"
                                 id="candidateImg"
                               />
                               <div className="candidateName">
                                 <h2>
-                                  Name :
-                                  <span id="cname">{"can.dvsdv"}</span>
-                                </h2>
-                                <h2>
                                   Party :
                                   <span id="cparty">
-                                    {"can.candidate_partyName"}
+                                    {can?.partyName}
                                   </span>
                                 </h2>
-
-                                <h6 id="cage">{parseInt(can.candidate_age)}</h6>
                               </div>
                               <div className="btnGroupCan">
-                                <button
-                                  className="infoCandidateBtn"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#staticBackdrop"
-                                  onClick={(e) => {
-                                    setcanImg(
-                                      e.target.parentNode.parentNode.querySelector(
-                                        "#candidateImg"
-                                      ).src
-                                    );
-                                    setcanName(
-                                      e.target.parentNode.parentNode
-                                        .querySelector("#cname")
-                                        .innerHTML.toString()
-                                    );
-                                    setcanParty(
-                                      e.target.parentNode.parentNode.querySelector(
-                                        "#cparty"
-                                      ).innerHTML
-                                    );
-                                    setcanage(
-                                      e.target.parentNode.parentNode.querySelector(
-                                        "#cage"
-                                      ).innerHTML
-                                    );
-                                  }}
-                                >
-                                  Info
-                                </button>
                                 <button
                                   className="voteCandidateBtn"
                                   onClick={VoteCountFunc}

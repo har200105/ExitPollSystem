@@ -1,24 +1,19 @@
 import { useEffect, useState } from "react";
 import "./AdminWelcome.css";
-import VoterNavbar from "../../../components/VoterNavbar";
 import { ToastContainer, toast, Flip } from "react-toastify";
 import { ethers } from "ethers";
 import { NavLink, useNavigate } from "react-router-dom";
-import { API } from "../../../constants/api";
 import { useSelector } from "react-redux";
 import AdminNavbar from "../../../components/AdminNavbar";
+import { myAccount } from "../../../constants/constants";
 
 const AdminWelcome = () => {
-
-  const navigate = useNavigate();
   const [BtnStateMsg, setBtnStateMsg] = useState("Connect To Metamask");
   const [CurrentAccount, setCurrentAccount] = useState(
     "0x00000000000000000000000000000000"
   );
   const [CurrentAccountBalance, setCurrentAccountBalance] = useState(0.0);
   const [OnlyOwner, setOnlyOwner] = useState(false);
-
-  const {user,isAdmin,isAuthenticated} = useSelector((state) => state.user);
 
   const connectToMetamask = async (e) => {
     if (window.ethereum) {
@@ -29,7 +24,7 @@ const AdminWelcome = () => {
       balance = ethers.utils.formatEther(balance);
       setCurrentAccountBalance(balance);
       if (
-        accounts[0].toString() == "0x101a7331a6b9febe2e0eeb78c81709555600de95"
+        accounts[0].toString() == myAccount
       ) {
         setOnlyOwner(true);
       } else {
@@ -79,7 +74,7 @@ const AdminWelcome = () => {
     balance = ethers.utils.formatEther(balance);
     setCurrentAccountBalance(balance);
     if (
-      accounts[0].toString() == "0x101a7331a6b9febe2e0eeb78c81709555600de95"
+      accounts[0].toString() == myAccount
     ) {
       setOnlyOwner(true);
     } else {

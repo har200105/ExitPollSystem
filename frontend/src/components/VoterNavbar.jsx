@@ -1,4 +1,3 @@
-
 import React from "react";
 import "./VoterNavbar.css";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -17,7 +16,6 @@ const Navbar = () => {
   const logout = () => {
     localStorage.clear();
     dispatch(authActions.logout());
-    navigate("/login");
   }
 
   useEffect(() => {

@@ -1,5 +1,4 @@
 .MainStatusCandidate {
-  /* align-items: center; */
   min-width: calc(100vw - 27rem);
   min-height: 100vh;
   display: flex;

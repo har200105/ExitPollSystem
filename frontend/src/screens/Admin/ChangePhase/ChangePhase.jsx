@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import "./ChangePhase.css";
 import { ToastContainer, toast } from "react-toastify";
 import { ethers } from "ethers";
-import { contractAddressValue } from "../../../constants/constants";
+import { contractAddressValue, myAccount } from "../../../constants/constants";
 import { useNavigate } from "react-router-dom";
-import VoterNavbar from "../../../components/VoterNavbar";
 import electionAbi from "../../../Contracts/Election.json";
+import AdminNavbar from "../../../components/AdminNavbar";
 
 
 const ChangePhase = () => {
@@ -13,7 +13,7 @@ const ChangePhase = () => {
   const navigate = useNavigate();
   const [currPhase, setcurrPhase] = useState("Registration");
   const [nextPhase, setNextPhase] = useState("Change Phase To Voting");
-  const [electionState, setElectionState] = useState(198);
+  const [electionState, setElectionState] = useState(-1);
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -27,23 +27,25 @@ const ChangePhase = () => {
 
 
   const retriveElectionResult = async () => {
-
     const datax = await ElectionContract.connect(
       signer
     ).addCandidateToResultList();
     console.log(datax);
+    await checkState();
   };
 
   const resetAll = async () => {
-     await ElectionContract.connect(signer).resetAll();
+    await ElectionContract.connect(signer).resetElection();
+    await checkState();
   };
+
   const checkOwner = async () => {
     if (window.ethereum) {
       try {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const accounts = await provider.send("eth_requestAccounts", []);
         if (
-          accounts[0].toString() != "0x101a7331a6b9febe2e0eeb78c81709555600de95"
+          accounts[0].toString() != myAccount
         ) {
           navigate("/admin-welcome");
         }
@@ -56,7 +58,7 @@ const ChangePhase = () => {
   };
 
   const checkState = async () => {
-    const StateOfCon = await ElectionContract.ElectionState();
+    const StateOfCon = await ElectionContract.ElectionPhase();
     console.log(StateOfCon);
     setElectionState(StateOfCon);
 
@@ -75,11 +77,6 @@ const ChangePhase = () => {
     }
   }
 
-  useEffect(() => {
-      window.ethereum.on("accountchanged", checkOwner);
-      checkOwner();
-      checkState();
-  }, []);
 
   useEffect(() => {
     if (window.ethereum) {
@@ -94,11 +91,12 @@ const ChangePhase = () => {
   },[]);
 
   const changePhaseFunc = async () => {
-    const StateOfCon = await ElectionContract.ElectionState();
+    const StateOfCon = await ElectionContract.ElectionPhase();
 
     if (StateOfCon === 0) {
       try {
         await ElectionContract.connect(signer).changeState(1);
+        await checkState();
       } catch (e) {
         if (e.message.indexOf("user rejected transaction") > -1) {
           toast.error("Transaction Rejected", {
@@ -132,7 +130,8 @@ const ChangePhase = () => {
       }
     } else if (StateOfCon === 1) {
       try {
-         await ElectionContract.connect(signer).changeState(2);
+        await ElectionContract.connect(signer).changeState(2);
+        await checkState();
       } catch (e) {
         if (e.message.indexOf("user rejected transaction") > -1) {
           toast.error("Transaction Rejected", {
@@ -168,6 +167,7 @@ const ChangePhase = () => {
       try {
         console.log("done");
         const tx = await ElectionContract.connect(signer).changeState(3);
+        await checkState();
         console.log(tx);
         console.log(StateOfCon);
       } catch (e) {
@@ -206,6 +206,7 @@ const ChangePhase = () => {
         console.log("done");
         const txs = await ElectionContract.connect(signer).changeState(0);
         console.log(txs);
+        await checkState();
         console.log(StateOfCon);
       } catch (e) {
         if (e.message.indexOf("user rejected transaction") > -1) {
@@ -243,13 +244,11 @@ const ChangePhase = () => {
 
   return (
     <>
-      <VoterNavbar />
+      <AdminNavbar />
       <ToastContainer theme="colored" />
-
       <div className="phaseContainer">
         <div className="mainPhase">
           <h1>Change Phase Of Election</h1>
-
           <div className="phaseInfo">
             <h2>Current Phase : {currPhase}</h2>
             <button className="phaseBtnChng" onClick={changePhaseFunc}>

@@ -1,4 +1,3 @@
-
 import React from "react";
 import "./AdminNavbar.css";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -17,7 +16,7 @@ const AdminNavbar = () => {
   const logout = () => {
     localStorage.clear();
     dispatch(authActions.logout());
-    navigate("/login");
+
   }
 
   useEffect(() => {

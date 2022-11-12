@@ -123,7 +123,7 @@ const App = () => {
             } />
           <Route exact path="/add-candidates" element={
              <ProtectedRoute isAuthenticated={isAuthenticated}
-                isAdmin={user && user.role === 'admin'}
+              isAdmin={user && user.role === 'admin'}
               redirect="/login"
             >
             <AddCandidates />

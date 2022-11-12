@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
 import "./Signup.css";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { signupUser } from "../../redux/reducers/user";
@@ -9,7 +9,6 @@ import { useEffect } from "react";
 
 const Register = () => {
 
-  const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState({
     firstname: "",
     lastname: "",
@@ -21,8 +20,8 @@ const Register = () => {
   const dispatch = useDispatch();
   const {user,isAuthenticated,error,message,success} = useSelector((state) => state.user);
 
-  const ValidateEmail = (mail) => {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+  const ValidateEmail = (email) => {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
       return true;
     } else {
       return false;
@@ -34,26 +33,6 @@ const Register = () => {
     const name = e.target.name;
     const value = e.target.value;
     setUserDetails({ ...userDetails, [name]: value });
-  };
-
-  const resetBtnFunc = () => {
-    const { firstname, lastname, phoneno, email, password } =
-      userDetails;
-    if (
-      firstname !== "" ||
-      lastname !== "" ||
-      phoneno !== "" ||
-      email !== "" ||
-      password !== "" 
-    ) {
-      setUserDetails({
-        firstname: "",
-        lastname: "",
-        phoneno: "",
-        email: "",
-        password: "",
-      });
-    }
   };
 
   const RegistersFunc = async (e) => {
@@ -68,7 +47,7 @@ const Register = () => {
       email !== "" &&
       password !== "" 
     ) {
-        if (ValidateEmail(email) == false) {
+        if (!ValidateEmail(email)) {
           toast.error("Enter a valid email address", {
             style: {
               fontSize: "15px",

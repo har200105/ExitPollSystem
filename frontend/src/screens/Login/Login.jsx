@@ -4,7 +4,6 @@ import Navbar from "../../components/Navbar";
 import "./Login.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions, loginUser } from "../../redux/reducers/user";
 import { useEffect } from "react";

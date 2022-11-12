@@ -40,7 +40,7 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-         reset: (state, action) => {
+        reset: (state, action) => {
             state.error = null;
             state.message = null;
             state.success = false;
@@ -49,6 +49,7 @@ const authSlice = createSlice({
         logout: (state, action) => {
             state.user = null;
             state.isAuthenticated = false;
+            state.isAdmin = false;
             state.loading = false;
         },
     },
@@ -58,10 +59,15 @@ const authSlice = createSlice({
         },
         [loginUser.fulfilled]: (state, action) => {
             if (action.payload?.success) {
+                state.loading = false;
                 localStorage.setItem("token", action.payload?.token);
                 state.user = action.payload.user;
                 state.isAuthenticated = true;
+                if (action.payload?.user?.role === "admin") {
+                    state.isAdmin = true;
+                }
             } else {
+                state.loading = false;
                 state.error = action.payload?.error;
                 state.message = action.payload?.message;
             }
@@ -71,9 +77,11 @@ const authSlice = createSlice({
         },
         [loadUser.fulfilled]: (state, action) => {
             if (action.payload?.success) {
+                state.loading = false;
                 state.user = action.payload?.user;
                 state.isAuthenticated = true;
                 if (action.payload?.user?.role === "admin") {
+                    state.loading = false;
                     state.isAdmin = true;
                 }
             }

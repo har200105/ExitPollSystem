@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Candidates.css";
 import VoterNavbar from "../../components/VoterNavbar";
-import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { ethers } from "ethers";
 import { contractAddressValue } from "../../constants/constants";
 import electionAbi from "../../Contracts/Election.json";
@@ -12,9 +11,7 @@ import AdminNavbar from "../../components/AdminNavbar";
 
 const Candidates = () => {
 
-  const navigate = useNavigate();
   const { isAdmin } = useSelector((state) => state.user);
-  const [Renderd, setRenderd] = useState(true);
   const [Candidates, setCandidates] = useState([]);
   const [noCandidates, setNoCandidates] = useState(0);
 
@@ -30,7 +27,9 @@ const Candidates = () => {
       console.log(ElectionContarct);
 
     const data = await ElectionContarct.allCandidates();
-    const candidateCount = await ElectionContarct.candidatesCount();
+      const candidateCount = await ElectionContarct.candidatesCount();
+      console.log(`Candidate Count`);
+      console.log(parseInt(candidateCount));
 
     setNoCandidates(parseInt(candidateCount));
     setCandidates(data);
@@ -47,15 +46,13 @@ const Candidates = () => {
 
   return (
     <>
-      {Renderd && (
-        <>
           <ToastContainer theme="colored" />
          {isAdmin ? <AdminNavbar/> : <VoterNavbar/>}
-          {noCandidates == 0 ? (
+          {noCandidates != 0 ? (
             <>
               <div className="AdminvotingAreaConatiner">
                 <div className="AdminvotingAreaMain">
-                  <h1>Candidates</h1>
+                  <h1>Parties</h1>
                   <div className="Admincandidates">
                     {Candidates.map((can) => {
                       return (
@@ -65,14 +62,12 @@ const Candidates = () => {
                         >
                           <div className="acandidateImg">
                             <img
-                              src={`/uploads/${can.candidate_imageName}`}
+                              src={`/uploads/${can.partyImage}`}
                               alt="img"
                             />
                           </div>
                           <div className="acandidateName">
-                            <h2>Name : ascsafaf</h2>
-                            <h2>Party : afafaf</h2>
-                            <h2>Age : sfasfaf</h2>
+                            <h2>Party : {can.partyName}</h2>
                           </div>
                         </div>
                       );
@@ -83,14 +78,12 @@ const Candidates = () => {
             </>
           ) : (
             <>
-              <div className="noCandidatesMian">
+              <div className="noCandidatesMain">
                 <h1>No Candidates !!</h1>
               </div>
             </>
           )}
         </>
-      )}
-    </>
   );
 };
 

@@ -77,11 +77,7 @@ router.post("/api/voteregistration", async (req, res) => {
   try {
     const { cid, adharCard, voterno, birthdate, age, city, rstate, address } =
       req.body;
-
     const findVoter = await Voter.findOne({ _id: cid });
-
-    const voterIdExists = await Voter.findOne({ voterId: voterno });
-    if (voterIdExists === null) {
       findVoter.adharCard = adharCard;
       findVoter.voterId = voterno;
       findVoter.age = age;
@@ -89,12 +85,10 @@ router.post("/api/voteregistration", async (req, res) => {
       findVoter.city = city;
       findVoter.rstate = rstate;
       findVoter.address = address;
-      findVoter.save();
-      res.status(201).json(voterno);
-    } else {
-      res.status(409).json("Voter Id " + voterno + " already available !!");
-    }
+      await findVoter.save();
+      res.status(201).json({message:voterno + " Saved"});
   } catch (e) {
+    console.log(e);
     res.status(400).json("Somthing Went Wrong !!");
   }
 });
@@ -104,7 +98,7 @@ router.post("/api/currentvoter", authentication, async (req, res) => {
   try {
     const currentVoter = await Voter.findOne({ _id: req.currentVoterId });
     console.log(currentVoter.voterId);
-    if (currentVoter.voterId === undefined) {
+    if (currentVoter.voterId === undefined || !currentVoter.voterId) {
       res.status(400).json("Please Register First For Vote");
     } else {
       if (currentVoter.isVoted) {

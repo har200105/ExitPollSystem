@@ -4,10 +4,11 @@ const router = express.Router();
 const authentication = require("../middleware/authenticate");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
+const Voter = require("../models/voter");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "../client/public/uploads/");
+    cb(null, "../frontend/public/uploads/");
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -67,19 +68,21 @@ router.get("/api/resultparties", authentication, async (req, res) => {
   }
 });
 
-router.post("/api/countvotes", async (req, res) => {
+router.post("/api/countvotes",authentication,async (req, res) => {
   try {
-    const partyName = req.body.partyName;
-
-    const currentParty = await Party.findOne({
-       partyName,
-    });
-    currentParty.TotalVotes++;
-    await currentParty.save();
-    res.status(201).json({
-      msg: "Your Vote Count Successfully for " + currentParty.partyName,
-      ans: currentParty.partyId,
-    });
+      const partyName = req.body.partyName;
+      const currentParty = await Party.findOne({
+        partyName,
+      });
+      currentParty.TotalVotes++;
+      await currentParty.save();
+      await Voter.findByIdAndUpdate(req.user._id, {
+        $set: { isVoted: true }
+      });
+      res.status(201).json({
+        msg: "Your Vote Count Successfully for " + currentParty.partyName,
+        ans: currentParty.partyId,
+      });
   } catch (error) {
     res.status(500).json(error);
   }

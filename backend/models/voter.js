@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 var jwt = require("jsonwebtoken");
-require("dotenv").config();
 
 const VoterSchema = new mongoose.Schema(
   {
@@ -34,8 +33,8 @@ const VoterSchema = new mongoose.Schema(
       type: Date,
       default: new Date(),
     },
-    voterIdCard: {
-      type: Number,  
+    voterId: {
+      type: String,  
     },
     age: {
       type: Number,

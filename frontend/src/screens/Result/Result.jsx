@@ -30,7 +30,7 @@ const Result = () => {
     );
     const signer = provider.getSigner();
 
-    const phaseStatus = await ElectionContarct.ElectionState();
+    const phaseStatus = await ElectionContarct.ElectionPhase();
     setPhaseOfElection(phaseStatus);
 
     if (phaseStatus === 2) {
@@ -43,9 +43,9 @@ const Result = () => {
       const winnerDetails = await ElectionContarct.candidates(winnerId);
 
       const ans = [...resultList];
+     
       ans.sort((a, b) => {
-        return parseInt(a.candidate_totalVotes) <
-          parseInt(b.candidate_totalVotes)
+        return parseInt(a.partyVotes) < parseInt(b.partyVotes)
           ? 1
           : -1;
       });
@@ -87,19 +87,13 @@ const Result = () => {
       setRenderd(true);
     }
   };
-  var zz = true;
   useEffect(() => {
-    if (zz) {
       getCandidatesData();
-      zz = false;
-    }
   }, []);
 
   var CandidatePostionId = 1;
   return (
     <>
-      {Renderd && (
-        <>
          {isAdmin ? <AdminNavbar/> : <VoterNavbar />}
           <ToastContainer theme="colored" />
           {PhaseOfElection === 2 ? (
@@ -114,31 +108,23 @@ const Result = () => {
                           <div className="winnerInfo">
                             <div className="winnerImg">
                               <img
-                                src={`/uploads/${winnerDetails.candidate_imageName}`}
+                                src={`/uploads/${winnerDetails.partyImage}`}
                                 alt="winner"
                               />
                             </div>
                             <div className="winnerName">
                               <h3 id="winnerHead">
                                 <span id="PopperDiv">
-                                  {/* <img
-                                  src={}
-                                    alt="popper"
-                                    id="partyPopperImg"
-                                  /> */}
+                                {winnerHeading} {winnerDetails?.partyName}
                                 </span>
-                                {winnerHeading}
                               </h3>
-
-                              <h2> Name : {winnerDetails.candidate_name}</h2>
                               <h2>
-                               
-                                Party : {winnerDetails.candidate_partyName}
+                                Party : {winnerDetails.partyName}
                               </h2>
                               <h2>
                                
                                 Total Votes :
-                                {parseInt(winnerDetails.candidate_totalVotes)}
+                                {parseInt(winnerDetails.partyVotes)}
                               </h2>
                             </div>
                           </div>
@@ -150,8 +136,7 @@ const Result = () => {
                             <tr>
                               <th>Position</th>
                               <th>Name</th>
-                              <th>Party</th>
-                              <th>Total Votes</th>
+                              <th>Votes</th>
                             </tr>
                           </thead>
 
@@ -160,9 +145,8 @@ const Result = () => {
                               return (
                                 <tr key={can.candidate_id}>
                                   <td>{CandidatePostionId++}</td>
-                                  <td>{can.candidate_name}</td>
-                                  <td>{can.candidate_partyName}</td>
-                                  <td>{parseInt(can.candidate_totalVotes)}</td>
+                                  <td>{can.partyName}</td>
+                                  <td>{parseInt(can.partyVotes)}</td>
                                 </tr>
                               );
                             })}
@@ -188,8 +172,6 @@ const Result = () => {
             </>
           )}
         </>
-      )}
-    </>
   );
 };
 

@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./Welcome.css";
 import VoterNavbar from "../../components/VoterNavbar";
-import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { ethers } from "ethers";
 
 const Welcome = () => {
-  
-  const navigate = useNavigate();
-
-  const [currentVoter, setCurrentVoter] = useState("");
   const [BtnStateMsg, setBtnStateMsg] = useState("Connect To Metamask");
   const [CurrentAccount, setCurrentAccount] = useState(
     "0x00000000000000000000000000000000"

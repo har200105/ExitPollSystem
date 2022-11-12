@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 const contractAddress = contractAddressValue;
 
 const VoteRegistration = () => {
+
   const [voterDetails, setVoterDetails] = useState({
     adharCard: "",
     voterno: "",
@@ -21,7 +22,6 @@ const VoteRegistration = () => {
     address: "",
   });
 
-  const navigate = useNavigate();
   const [statusOfPage, setStatusOfPage] = useState(true);
 
   const { user } = useSelector((state) => state.user);
@@ -33,7 +33,7 @@ const VoteRegistration = () => {
       electionAbi,
       provider
     );
-    const StateOfCon = await ElectionContarct.ElectionState();
+    const StateOfCon = await ElectionContarct.ElectionPhase();
     if (StateOfCon == 0) {
       setStatusOfPage(true);
     } else {
@@ -54,7 +54,7 @@ const VoteRegistration = () => {
         const tx = await ElectionContract.connect(signer).voterRegisteration(
           currentVotervoterId.toString()
         );
-
+        console.log("Voter Adding in Blockchain");
         console.log(tx);
         toast.info("Processing to Blockchain", {
           style: {
@@ -111,92 +111,11 @@ const VoteRegistration = () => {
   const HandleVoterDetailsChanges = (e) => {
     setVoterDetails({ ...voterDetails, [e.target.name]: e.target.value });
   };
-
-  const resetVoterBtnFunc = () => {
-    const { adharCard, voterno, birthdate, age, city, rstate, address } =
-      voterDetails;
-
-    if (
-      adharCard !== "" ||
-      voterno !== "" ||
-      birthdate !== "" ||
-      age !== "" ||
-      city !== "" ||
-      rstate !== "" ||
-      address !== ""
-    ) {
-      setVoterDetails({
-        adharCard: "",
-        voterno: "",
-        birthdate: "",
-        age: "",
-        city: "",
-        rstate: "",
-        address: "",
-      });
-    }
-  };
   const RegisersVoterFunc = async (e) => {
     e.preventDefault();
     const { adharCard, voterno, birthdate, age, city, rstate, address } =
       voterDetails;
-    if (
-      adharCard !== "" &&
-      voterno !== "" &&
-      birthdate !== "" &&
-      age !== "" &&
-      city !== "" &&
-      rstate !== "" &&
-      address !== ""
-    ) {
-      if (age < 18 || age > 100) {
-        toast.error("Age is Not Valid", {
-          style: {
-            fontSize: "15px",
-            letterSpacing: "1px",
-          },
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-        });
-        return;
-      }
-      if (adharCard.length !== 12) {
-        toast.error("Aadhar Card Number must be 12 Numbers", {
-          style: {
-            fontSize: "15px",
-            letterSpacing: "1px",
-          },
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-        });
-        return;
-      }
-      if (voterno.length !== 10) {
-        toast.error("Voter Card Number must be 10 Numbers", {
-          style: {
-            fontSize: "15px",
-            letterSpacing: "1px",
-          },
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-        });
-        return;
-      }
+    
       const response = await API.post('/api/voteregistration',{
           cid: user?._id,
           adharCard,
@@ -227,7 +146,6 @@ const VoteRegistration = () => {
           addVoterToBlockchain(voterDetails.voterno);
         }, 3500);
 
-        resetVoterBtnFunc();
       } else if (response.status === 409) {
         toast.error(data, {
           style: {
@@ -256,36 +174,20 @@ const VoteRegistration = () => {
           draggable: true,
           progress: undefined,
         });
-      }
-    } else {
-      toast.error("Fill all Details !!", {
-        style: {
-          fontSize: "18px",
-          letterSpacing: "1px",
-        },
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        transition: Flip,
-      });
-    }
+      } 
   };
 
   return (
     <>
          <VoterNavbar/>
-          {user &&  statusOfPage ? (
+          {statusOfPage ? (
             <>
               <div className="voteRegistrationMain">
                 <ToastContainer theme="colored" />
                 <h1 id="headingForRegistration">Fill The Details For Voting</h1>
                 <div className="formMain">
                   <div className="rightSideRegistrationPart">
-                    <form method="POST">
+                    <form>
                       <div className="inputVoteBox">
                         <i className="fa-solid fa-address-card"></i>
                         <input
@@ -382,7 +284,6 @@ const VoteRegistration = () => {
                           id="address"
                           className="VotingRegisterInputField"
                           onChange={HandleVoterDetailsChanges}
-                          value={voterDetails.address}
                           required
                         />
                       </div>
@@ -393,11 +294,6 @@ const VoteRegistration = () => {
                           className="regiterVotebumtBtn"
                           onClick={RegisersVoterFunc}
                         />
-                        <input
-                          type="reset"
-                          className="resetVoteBtn"
-                          onClick={resetVoterBtnFunc}
-                        />
                       </div>
                     </form>
                   </div>
@@ -406,7 +302,7 @@ const VoteRegistration = () => {
             </>
           ) : (
           <div className="MainStatusVoter">
-                <h1>You have already Added your Data</h1>
+                <h1>Registration phase has not been started yet !!</h1>
               </div>
           )}
         </>
