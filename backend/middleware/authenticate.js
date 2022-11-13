@@ -4,11 +4,13 @@ const jwt = require("jsonwebtoken");
 const authentication = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
-    const verifyToken = jwt.verify(token, process.env.Token_Private_Key);
+    if (!token) {
+      return res.status(401).json("Voter Not Found");
+    }
+    const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
     const currentVoter = await Voter.findById(verifyToken.id);
     if (!currentVoter) {
-      res.status(401);
-      throw new Error(`Voter not found`);
+     res.status(401).json("Voter Not Found");
     }
     req.user = currentVoter;
     next();

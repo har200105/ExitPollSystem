@@ -14,7 +14,7 @@
     align-items:center;
     width: 100%;
     height: 10rem;
-    border-bottom: 1px dashed grey;
+    border-bottom: 1px solid grey;
 }
 
 .AtopWlcomePart h1 {
@@ -107,7 +107,7 @@
     padding-left: 5rem;
     margin-top: 3rem;
     height: 23rem;
-    border-bottom: 1px dashed grey;
+    border-bottom: 1px solid grey;
 }
 
 .AaccountDetails h2 {
@@ -136,7 +136,7 @@
     padding-left: 5rem;
     margin-top: 3rem;
     min-height: 18rem;
-    border-bottom: 1px dashed grey;
+    border-bottom: 1px solid grey;
 }
 
 .adminPower h2 {

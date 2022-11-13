@@ -16,3 +16,4 @@ const voterIDCardSchema = new mongoose.Schema({
 });
 
 const VoterIDCard = mongoose.model("VoterIDCard", voterIDCardSchema);
+module.exports = VoterIDCard;

@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import VoterNavbar from "../../components/VoterNavbar";
 import "./VoterRegistration.css";
 import { ToastContainer, toast, Flip } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
 import { contractAddressValue } from "../../constants/constants";
 import electionAbi from "../../Contracts/Election.json";
 import { API } from "../../constants/api";
 import { useSelector } from "react-redux";
+
+
 const contractAddress = contractAddressValue;
 
 const VoteRegistration = () => {
@@ -28,12 +29,12 @@ const VoteRegistration = () => {
 
   const checkState = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const ElectionContarct = new ethers.Contract(
+    const ElectionContract = new ethers.Contract(
       contractAddress,
       electionAbi,
       provider
     );
-    const StateOfCon = await ElectionContarct.ElectionPhase();
+    const StateOfCon = await ElectionContract.ElectionPhase();
     if (StateOfCon == 0) {
       setStatusOfPage(true);
     } else {
@@ -50,12 +51,11 @@ const VoteRegistration = () => {
     );
     const signer = provider.getSigner();
     try {
-      if (currentVotervoterId != "") {
-        const tx = await ElectionContract.connect(signer).voterRegisteration(
+      if (currentVotervoterId !== "") {
+        const transaction = await ElectionContract.connect(signer).voterRegisteration(
           currentVotervoterId.toString()
         );
-        console.log("Voter Adding in Blockchain");
-        console.log(tx);
+        console.log(transaction);
         toast.info("Processing to Blockchain", {
           style: {
             fontSize: "15px",
@@ -71,7 +71,7 @@ const VoteRegistration = () => {
           transition: Flip,
         });
       } else {
-        toast.error("Id Required !!", {
+        toast.error("ID Required !!", {
           style: {
             fontSize: "18px",
             letterSpacing: "1px",
@@ -111,10 +111,10 @@ const VoteRegistration = () => {
   const HandleVoterDetailsChanges = (e) => {
     setVoterDetails({ ...voterDetails, [e.target.name]: e.target.value });
   };
-  const RegisersVoterFunc = async (e) => {
+  const RegisterVoter = async (e) => {
+    
     e.preventDefault();
-    const { adharCard, voterno, birthdate, age, city, rstate, address } =
-      voterDetails;
+    const { adharCard, voterno, birthdate, age, city, rstate, address } = voterDetails;
     
       const response = await API.post('/api/voteregistration',{
           cid: user?._id,
@@ -129,7 +129,7 @@ const VoteRegistration = () => {
       const data = response.data;
 
       if (response.status === 201) {
-        toast.success("Sucessfully registered to Db", {
+        toast.success("Successfully registered to Db", {
           style: {
             fontSize: "15px",
             letterSpacing: "1px",
@@ -144,7 +144,7 @@ const VoteRegistration = () => {
         });
         setTimeout(function () {
           addVoterToBlockchain(voterDetails.voterno);
-        }, 3500);
+        }, 1500);
 
       } else if (response.status === 409) {
         toast.error(data, {
@@ -175,7 +175,7 @@ const VoteRegistration = () => {
           progress: undefined,
         });
       } 
-  };
+  }
 
   return (
     <>
@@ -184,7 +184,7 @@ const VoteRegistration = () => {
             <>
               <div className="voteRegistrationMain">
                 <ToastContainer theme="colored" />
-                <h1 id="headingForRegistration">Fill The Details For Voting</h1>
+                <h1 id="headingForRegistration">Fill The Details before Voting</h1>
                 <div className="formMain">
                   <div className="rightSideRegistrationPart">
                     <form>
@@ -292,7 +292,7 @@ const VoteRegistration = () => {
                         <input
                           type="submit"
                           className="regiterVotebumtBtn"
-                          onClick={RegisersVoterFunc}
+                          onClick={RegisterVoter}
                         />
                       </div>
                     </form>

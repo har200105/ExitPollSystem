@@ -130,6 +130,9 @@ const Login = () => {
               <h5>Not registered yet ? </h5>
               <NavLink to="/signup">Create an Account</NavLink>
             </div>
+             <div className="moreoption1">
+              <NavLink to="/signup">Forget Password</NavLink>
+            </div>
           </div>
         </div>
       </div>

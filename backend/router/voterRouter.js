@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Voter = require("../models/voter");
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 const authentication = require("../middleware/authenticate");
 const { authorizeAdmin } = require("../middleware/authenticationForAdmin");
 
@@ -68,7 +69,7 @@ router.post("/api/login", async (req, res) => {
 });
 
 router.get("/api/voteregistration", authentication, async(req, res) => {
-  await Voter.findById(req.currentVoterId).then((data) => {
+  await Voter.findById(req.user._id).then((data) => {
       res.status(200).json(data);
   });
 });
@@ -87,6 +88,21 @@ router.post("/api/voteregistration", async (req, res) => {
       findVoter.address = address;
       await findVoter.save();
       res.status(201).json({message:voterno + " Saved"});
+  } catch (e) {
+    console.log(e);
+    res.status(400).json("Somthing Went Wrong !!");
+  }
+});
+
+
+router.put("/resetUserIsVote", authentication, async (req, res) => {
+  try {
+    await Voter.updateMany({}, {
+      $set: {
+        isVoted: false
+      }
+    });
+    res.status(201).json({ message: "Is Voted Reset Successfully" });
   } catch (e) {
     console.log(e);
     res.status(400).json("Somthing Went Wrong !!");
@@ -113,5 +129,8 @@ router.post("/api/currentvoter", authentication, async (req, res) => {
     res.status(400).json("Somthing Went Wrong !!");
   }
 });
+
+
+
 
 module.exports = router;

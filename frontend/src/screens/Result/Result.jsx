@@ -12,42 +12,41 @@ import { API } from "../../constants/api";
 const contractAddress = contractAddressValue;
 
 const Result = () => {
+
   const navigate = useNavigate();
-  const [Renderd, setRenderd] = useState(true);
+  
   const [winnerHeading, setwinnerHeading] = useState("Election Winner is");
   const [PhaseOfElection, setPhaseOfElection] = useState(198);
   const [resultCandidates, setResultCandidates] = useState([]);
   const [winnerDetails, setwinnerDetails] = useState([]);
+  const [isDraw, setIsDraw] = useState(false);
 
   const { isAdmin } = useSelector((state) => state.user);
 
   const getCandidatesDataFromBlockchain = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const ElectionContarct = new ethers.Contract(
+    const ElectionContract = new ethers.Contract(
       contractAddress,
       electionAbi,
       provider
     );
     const signer = provider.getSigner();
-
-    const phaseStatus = await ElectionContarct.ElectionPhase();
+    const phaseStatus = await ElectionContract.ElectionPhase();
     setPhaseOfElection(phaseStatus);
 
     if (phaseStatus === 2) {
-      const resultList = await ElectionContarct.connect(
+      const resultList = await ElectionContract.connect(
         signer
       ).getUpdatedCandidateList();
       console.log(resultList);
 
-      const winnerId = await ElectionContarct.getWinner();
-      const winnerDetails = await ElectionContarct.candidates(winnerId);
+      const winnerId = await ElectionContract.getWinner();
+      const winnerDetails = await ElectionContract.candidates(winnerId);
 
       const ans = [...resultList];
      
       ans.sort((a, b) => {
-        return parseInt(a.partyVotes) < parseInt(b.partyVotes)
-          ? 1
-          : -1;
+      return parseInt(a?.partyVotes) < parseInt(b?.partyVotes) ? 1  : -1;
       });
 
       setwinnerDetails(winnerDetails);
@@ -61,10 +60,11 @@ const Result = () => {
 
     const data = response.data;
     if (response.status === 200) {
-      setRenderd(true);
       getCandidatesDataFromBlockchain();
       if (data[0].TotalVotes === data[1].TotalVotes) {
         setwinnerHeading("Election Is Draw");
+        setIsDraw(true);
+        
       }
     } else if (response.status === 401) {
       navigate("/login");
@@ -83,15 +83,14 @@ const Result = () => {
           progress: undefined,
         });
       }, 1000);
-    } else {
-      setRenderd(true);
-    }
+    } 
   };
   useEffect(() => {
       getCandidatesData();
   }, []);
 
   var CandidatePostionId = 1;
+
   return (
     <>
          {isAdmin ? <AdminNavbar/> : <VoterNavbar />}
@@ -100,12 +99,10 @@ const Result = () => {
             <>
               {resultCandidates.length !== 0 ? (
                 <>
-                  <div className="resultConatiner">
+                  <div className="resultContainer">
                     <div className="resultMain">
-                      {resultCandidates[0] && (
-                        <div className="renderCondition">
-                          <h1>Result Area</h1>
-                          <div className="winnerInfo">
+                  {resultCandidates[0] && (
+                    <div className="winnerInfo">
                             <div className="winnerImg">
                               <img
                                 src={`/uploads/${winnerDetails.partyImage}`}
@@ -115,7 +112,7 @@ const Result = () => {
                             <div className="winnerName">
                               <h3 id="winnerHead">
                                 <span id="PopperDiv">
-                                {winnerHeading} {winnerDetails?.partyName}
+                                {winnerHeading}  {!isDraw && winnerDetails?.partyName}
                                 </span>
                               </h3>
                               <h2>
@@ -125,12 +122,11 @@ const Result = () => {
                                
                                 Total Votes :
                                 {parseInt(winnerDetails.partyVotes)}
-                              </h2>
-                            </div>
-                          </div>
+                        </h2>
+                        </div>
                         </div>
                       )}
-                      <div className="runnerUpTableConatiner">
+                      <div className="runnerUpTableContainer">
                         <table className="runnerUpTable">
                           <thead className="table-heading">
                             <tr>
@@ -141,7 +137,7 @@ const Result = () => {
                           </thead>
 
                           <tbody className="runnerUpTableBody">
-                            {resultCandidates.map((can) => {
+                            {resultCandidates?.map((can) => {
                               return (
                                 <tr key={can.candidate_id}>
                                   <td>{CandidatePostionId++}</td>
@@ -159,7 +155,7 @@ const Result = () => {
               ) : (
                 <>
                   <div className="ResultWait">
-                    <h1>Wait For Result ...</h1>
+                    <h1>Wait For Result ....</h1>
                   </div>
                 </>
               )}

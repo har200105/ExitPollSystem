@@ -144,6 +144,13 @@
     width: 80%;
 }
 
+.moreoption1 {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-top: 3rem;
+}
+
 .moreoption h5 {
     font-size: 1.3rem;
     color: rgb(255, 255, 255);
@@ -151,8 +158,20 @@
 
 .moreoption a {
     padding-left: 0.5rem;
-    font-size: 1rem;
+    font-size: 1.5rem;
     color: rgb(209, 183, 183);
     text-decoration: none;
     font-weight: bold;
+}
+
+.moreoption1 a {
+    padding-left: 0.5rem;
+    font-size: 1.5rem;
+    color: rgb(209, 183, 183);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.moreoption a:hover,.moreoption1 a:hover{
+    text-decoration: underline;
 }

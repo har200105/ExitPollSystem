@@ -24,6 +24,10 @@ const VoterSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    verified: {
+      type: Boolean,
+      default:false
+    },
     role: {
       type: String,
       enum: ["admin", "user"],
@@ -64,7 +68,7 @@ const VoterSchema = new mongoose.Schema(
 );
 
 VoterSchema.methods.generateToken = async function () {
-  let token = await jwt.sign({ id: this._id }, process.env.Token_Private_Key);
+  let token = await jwt.sign({ id: this._id }, process.env.JWT_SECRET);
   return token;
 };
 

@@ -5,6 +5,27 @@ const authentication = require("../middleware/authenticate");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
 const Voter = require("../models/voter");
+const aws = require("aws-sdk");
+
+const s3 = new aws.S3({
+	region: process.env.AWS_REGION,
+	accessKeyId: process.env.AWS_ACCESS_ID,
+	secretAccessKey: process.env.AWS_SECRET_KEY,
+});
+
+// const upload = multer({
+// 	storage: multerS3({
+// 		acl: 'public-read',
+// 		s3: s3,
+// 		bucket: 'bizbackbone-stage',
+// 		metadata: function (req, file, cb) {
+// 			cb(null, {fieldName: file.fieldname});
+// 		  },
+// 		  key: function (req, file, cb) {
+// 			cb(null, file.originalname)
+// 		  }
+// 	})
+// }).single('file');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -70,6 +91,9 @@ router.get("/api/resultparties", authentication, async (req, res) => {
 
 router.post("/api/countvotes",authentication,async (req, res) => {
   try {
+    if (req.user.isVoted) {
+      return res.status(401).json("You have already voted");
+    }
       const partyName = req.body.partyName;
       const currentParty = await Party.findOne({
         partyName,

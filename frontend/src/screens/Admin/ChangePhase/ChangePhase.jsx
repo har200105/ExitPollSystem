@@ -6,6 +6,7 @@ import { contractAddressValue, myAccount } from "../../../constants/constants";
 import { useNavigate } from "react-router-dom";
 import electionAbi from "../../../Contracts/Election.json";
 import AdminNavbar from "../../../components/AdminNavbar";
+import { API } from "../../../constants/api";
 
 
 const ChangePhase = () => {
@@ -23,8 +24,8 @@ const ChangePhase = () => {
     provider
   );
 
-  const signer = provider.getSigner();
 
+  const signer = provider.getSigner();
 
   const retriveElectionResult = async () => {
     const datax = await ElectionContract.connect(
@@ -37,6 +38,9 @@ const ChangePhase = () => {
   const resetAll = async () => {
     await ElectionContract.connect(signer).resetElection();
     await checkState();
+    const response = await API.put('/resetUserIsVote');
+    console.log(`Reset Response`);
+    console.log(response.data);
   };
 
   const checkOwner = async () => {
@@ -82,7 +86,6 @@ const ChangePhase = () => {
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", checkOwner);
       checkState();
-
       return () => {
         window.ethereum.removeListener("accountsChanged", checkOwner);
         checkState();
@@ -91,8 +94,8 @@ const ChangePhase = () => {
   },[]);
 
   const changePhaseFunc = async () => {
-    const StateOfCon = await ElectionContract.ElectionPhase();
 
+    const StateOfCon = await ElectionContract.ElectionPhase();
     if (StateOfCon === 0) {
       try {
         await ElectionContract.connect(signer).changeState(1);

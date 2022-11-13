@@ -135,15 +135,15 @@ const AdminWelcome = () => {
                 {OnlyOwner === true ? (
                   <>
                     <NavLink to="/add-candidates" id="addCanBtn">
-                      <i className="fa-solid fa-circle-plus"></i>Add New
-                      Candidate
+                  <i className="fa-solid fa-circle-plus">
+                  </i>Add New Party
                     </NavLink>
                     <NavLink to="/change-phase" id="phaseBtn">
                       <i className="fa-solid fa-file-pen"></i>Change Phase
                     </NavLink>
                   </>
                 ) : (
-                  <h3>You Dont Have Permision To Add New Candidate !!</h3>
+                  <h3>You Dont Have Permision To Add New Party !!</h3>
                 )}
               </div>
             </div>

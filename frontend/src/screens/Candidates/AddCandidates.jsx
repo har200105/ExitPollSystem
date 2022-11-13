@@ -136,7 +136,6 @@ const AddCandidates = () => {
           "Content-Type": "multipart/form-data"
         }
       });
-
     }
   };
 
@@ -149,7 +148,7 @@ const AddCandidates = () => {
           <div className="addCandidatesConatiner">
             <ToastContainer theme="colored" />
             <div className="addCandidateMain">
-              <h1>Add Candidates</h1>
+              <h1>Add Parties</h1>
               <div className="addCandidateinputFormMain">
                 <form
                   className="addCandidateForm"

@@ -1,7 +1,6 @@
 .votingAreaConatiner,
 .ZeroCountCandi,
 .ElectionPhaseMain {
-    position: absolute;
     left: 15rem;
     top: 10rem;
     min-width: calc(100vw - 27rem);
@@ -72,7 +71,6 @@
     margin-bottom: 2rem;
 }
 
-/* Candidates Part Css  */
 
 .votingAreaMain {
     width: 100%;
@@ -93,19 +91,15 @@
     min-width: 90%;
     max-width: 90%;
     flex-wrap: wrap;
-    /* background: rgb(98, 1, 1); */
 }
 
 .candidateBox {
-    /* margin-left: 5rem; */
     margin-bottom: 5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 2rem;
     border-radius: 1rem;
-    /* background: rgb(20, 19, 19);
-   */
     background: rgba(216, 244, 255, 0.132);
 
     width: 30%;

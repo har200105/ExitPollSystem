@@ -17,17 +17,17 @@ const VotingArea = () => {
 
   const getCandidatesDataFromBlockchain = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const ElectionContarct = new ethers.Contract(
+    const ElectionContract = new ethers.Contract(
       contractAddress,
       electionAbi,
       provider
     );
 
-    const data = await ElectionContarct.allCandidates();
-    const phase = await ElectionContarct.ElectionPhase();
+    const data = await ElectionContract.allCandidates();
+    const phase = await ElectionContract.ElectionPhase();
     console.log(phase);
     console.log(data);
-    const CCount = await ElectionContarct.candidatesCount();
+    const CCount = await ElectionContract.candidatesCount();
     setPhaseOfElec(phase);
     setCandidates(data);
     console.log(parseInt(CCount));
@@ -38,7 +38,8 @@ const VotingArea = () => {
     console.log(voterId);
     console.log(candidateId);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const ElectionContarct = new ethers.Contract(
+
+    const ElectionContract = new ethers.Contract(
       contractAddress,
       electionAbi,
       provider
@@ -46,8 +47,7 @@ const VotingArea = () => {
     const signer = provider.getSigner();
 
     try {
-      console.log(candidateId.toString());
-      const tx = await ElectionContarct.connect(signer).vote(
+      const tx = await ElectionContract.connect(signer).vote(
         voterId.toString(),
         candidateId.toString()
       );
@@ -63,47 +63,61 @@ const VotingArea = () => {
   }, []);
 
   const VoteCountFunc = async (e) => {
-    const partyName = e.target.parentNode.parentNode
-      .querySelector("#cparty")
-      .innerHTML.toString();
+    try {
+      const partyName = e.target.parentNode.parentNode
+        .querySelector("#cparty")
+        .innerHTML.toString();
       const response = await API.post("/api/countvotes", {
-          partyName,
-        });
+        partyName,
+      });
 
       const data = response.data;
 
-    if (response.status === 201) {
-      toast.success(data.msg, {
-        style: {
-          fontSize: "15px",
-          letterSpacing: "1px",
-        },
-        position: "bottom-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      if (response.status === 201) {
+        toast.success(data.msg, {
+          style: {
+            fontSize: "15px",
+            letterSpacing: "1px",
+          },
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
 
-      setTimeout(() => {
         countVoteInBlockchain(user?.voterId, partyName);
-      }, 1500);
-    } else {
-      toast.error("Somthing Went Wrong !!", {
-        style: {
-          fontSize: "18px",
-          letterSpacing: "1px",
-        },
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      } else {
+        toast.error("Somthing Went Wrong !!", {
+          style: {
+            fontSize: "18px",
+            letterSpacing: "1px",
+          },
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    } catch (e) {
+        toast.error("You have already voted", {
+          style: {
+            fontSize: "18px",
+            letterSpacing: "1px",
+          },
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
     }
   };
 
@@ -157,7 +171,7 @@ const VotingArea = () => {
               ) : (
                 <>
                   <div className="ZeroCountCandi">
-                    <h1>Here No Candidates Added !!</h1>
+                    <h1>No Parties Added !!</h1>
                   </div>
                 </>
               )}

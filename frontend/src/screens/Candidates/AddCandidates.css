@@ -12,9 +12,7 @@
 }
 
 .addCandidatesConatiner {
-  position: absolute;
-  left: 25rem;
-  top: 15rem;
+  margin-top: 10rem;
   min-width: calc(100vw - 27rem);
   min-height: 100vh;
   display: flex;

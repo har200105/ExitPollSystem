@@ -79,7 +79,7 @@ const Candidates = () => {
           ) : (
             <>
               <div className="noCandidatesMain">
-                <h1>No Candidates !!</h1>
+                <h1>No Parties !!</h1>
               </div>
             </>
           )}

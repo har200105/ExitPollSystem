@@ -23,8 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 const partyRouter = require("./router/partyRouter");
 const voterRouter = require("./router/voterRouter");
 const adminRouter = require("./router/adminRouter");
-
-
+const voterIDCardRouter = require("./router/voterIDCardRouter");
 
 app.use(function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*"); 
@@ -34,7 +33,8 @@ app.use(function (req, res, next) {
 
 app.use("/",voterRouter);
 app.use("/",partyRouter);
-app.use("/",adminRouter);
+app.use("/", adminRouter);
+app.use("/", voterIDCardRouter);
 
 
 app.use(Handler);
