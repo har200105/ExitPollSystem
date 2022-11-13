@@ -138,7 +138,7 @@ const Register = () => {
                 <input
                   type="number"
                   name="phoneno"
-                  placeholder="Enter your contact name"
+                  placeholder="Enter your contact number"
                   id="phoneno"
                   className="RegisterInputField"
                   onChange={handleChanges}

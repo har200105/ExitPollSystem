@@ -118,9 +118,7 @@ const Login = () => {
                   placeholder="Enter your Password"
                   id="password"
                   value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <input type="submit" className="loginBtn" onClick={loginFunc} />

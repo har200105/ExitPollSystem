@@ -129,7 +129,7 @@
     background-color: #3b82f6;
     margin-top: 2.2rem;
     border-radius: 1.3rem;
-    transition: all 0.1s ease;
+    transition: all 0.2s ease-in-out;
 }
 
 .loginBtn:hover {

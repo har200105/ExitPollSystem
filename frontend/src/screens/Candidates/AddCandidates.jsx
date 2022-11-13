@@ -64,7 +64,7 @@ const AddCandidates = () => {
   const addPartyToDB = async (e) => {
 
     e.preventDefault();
-     const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
     const ElectionContract = new ethers.Contract(
       contractAddress,
       electionAbi,
@@ -168,7 +168,7 @@ const AddCandidates = () => {
                     />
                   </div>
 
-                  <div className=" fileInputBox">
+                  <div className="fileInputBox">
                     <i className="fa-solid fa-folder"></i>
                     <input
                       name="CandidateImage"

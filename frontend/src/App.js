@@ -25,23 +25,18 @@ const App = () => {
 
 
   useEffect(() => {
-    dispatch(loadUser());
+    if (localStorage.getItem('token')) {
+      dispatch(loadUser());
+    }
   }, [dispatch]);
 
 
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.permissions
-        .query({ name: "geolocation" })
-        .then(function (result) {
-          if (result.state === "granted") {
-            console.log(result.state);
-          } else {
-            console.log(`Permission not granted`);
-          }
-        });
-    }
+     navigator.geolocation.getCurrentPosition(function(position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+    });
   }, []);
 
 

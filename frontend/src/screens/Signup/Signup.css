@@ -149,6 +149,11 @@
     color: rgb(216, 206, 206);
     text-decoration: none;
     margin-left: 1.3rem;
+    line-height: 15px;
+}
+
+.alreadyAccount a:hover {
+    text-decoration: underline;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
