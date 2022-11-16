@@ -14,29 +14,27 @@ It's a blockchain based Full stack Exit poll system for Indian elecions.More spe
 * Ethers.js
 * Express JS
 * MongoDB
-* Ethers.js
-
 
 # Screen shots of the Project 
 
-(./screenshots/a.png)
-(./screenshots/b.png)
-(./screenshots/c.png)
-(./screenshots/d.png)
-(./screenshots/e.png)
-(./screenshots/f.png)
-(./screenshots/g.png)
-(./screenshots/h.png)
-(./screenshots/i.png)
-(./screenshots/j.png)
-(./screenshots/k.png)
-(./screenshots/l.png)
-(./screenshots/m.png)
-(./screenshots/n.png)
-(./screenshots/o.png)
-(./screenshots/p.png)
-(./screenshots/q.png)
-(./screenshots/r.png)
+
+![alt text](./screenshots/b.png)
+![alt text](./screenshots/c.png)
+![alt text](./screenshots/d.png)
+![alt text](./screenshots/e.png)
+![alt text](./screenshots/f.png)
+![alt text](./screenshots/g.png)
+![alt text](./screenshots/h.png)
+![alt text](./screenshots/i.png)
+![alt text](./screenshots/j.png)
+![alt text](./screenshots/k.png)
+![alt text](./screenshots/l.png)
+![alt text](./screenshots/m.png)
+![alt text](./screenshots/n.png)
+![alt text](./screenshots/o.png)
+![alt text](./screenshots/p.png)
+![alt text](./screenshots/q.png)
+![alt text](./screenshots/r.png)
 
 
 
