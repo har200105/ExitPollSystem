@@ -121,9 +121,9 @@ const AdminWelcome = () => {
                 {BtnStateMsg}
               </button>
             </div>
-            <div className="AaccountDetails">
+            <div className="AccountDetails">
               <h2> - Account Details</h2>
-              <div className="AaccountAddress">
+              <div className="AccountAddress">
                 <h3>Account Address : {CurrentAccount}</h3>
                 <h3>Account Balance : {CurrentAccountBalance} ETH</h3>
               </div>
@@ -132,7 +132,7 @@ const AdminWelcome = () => {
             <div className="adminPower">
               <h2> - Admin Access</h2>
               <div className="addCandidate">
-                {OnlyOwner === true ? (
+                {OnlyOwner ? (
                   <>
                     <NavLink to="/add-candidates" id="addCanBtn">
                   <i className="fa-solid fa-circle-plus">
@@ -143,7 +143,7 @@ const AdminWelcome = () => {
                     </NavLink>
                   </>
                 ) : (
-                  <h3>You Dont Have Permision To Add New Party !!</h3>
+                  <h3>You Dont Have Permission rmTo Add New Party !!</h3>
                 )}
               </div>
             </div>

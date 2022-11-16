@@ -1,23 +1,22 @@
-import React from "react";
+import React,{useState} from "react";
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import {GiHamburgerMenu} from "react-icons/gi";
 
 const Navbar = () => {
-  const {isAuthenticated} = useSelector((state) => state.user);
+
+  const [show, setShow] = useState(false);
   return (
     <>
-      <div className="navbarMain">
-        <div className="leftSideNavbar">
-          <li style={{
-           listStyle:"none"
-         }}>
-              <NavLink className="header" to="/">Exit Poll System</NavLink>
-            </li>
+         <nav className="main-nav">
+        <div className="logo">
+          <NavLink to="/admin-welcome">
+             <h2>Exit Poll System</h2>
+         </NavLink>
         </div>
-        <div className="rightSideNavbar">
+        <div className={show ? "mobile-menu-link":"menu-link"}>
           <ul>
-            <li>
+              <li>
               <NavLink to="/">Home</NavLink>
             </li>
             <li>
@@ -28,7 +27,10 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-      </div>
+        <div className="hamburger-menu" onClick={()=>setShow(!show)}>
+            <GiHamburgerMenu/>
+          </div>
+      </nav>
     </>
   );
 };

@@ -1,8 +1,6 @@
 .resultContainer,
 .StatusOfResultVote,
 .ResultWait {
-    min-width: calc(100vw - 27rem);
-    min-height: 100vh;
     margin: auto;
     display: flex;
     align-items: center;
@@ -45,7 +43,7 @@
 }
 
 .winnerInfo {
-    position: relative;
+
     width: 80%;
     height: 45vh;
     display: flex;
@@ -55,6 +53,8 @@
     border-radius: 1rem;
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
 }
+
+
 
 .winnerImg {
     width: 40%;
@@ -84,17 +84,13 @@
     border-bottom: 1px solid white;
     padding-bottom: 1rem;
     text-align: center;
-    font-size: 3rem;
+    font-size: 2rem;
     margin: 2rem 0;
     font-weight: bold;
     letter-spacing: 1px;
 }
 
-#PopperDiv {
-    position: absolute;
-    bottom: 3rem;
-    right: 5rem;
-}
+
 
 #partyPopperImg {
     transform: rotate(258deg);
@@ -112,7 +108,6 @@
     margin-top: 7rem;
     background-color: rgba(9, 68, 105, 0.5);
     border-radius: 1rem;
-    overflow: hidden;
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
     margin-bottom: 3rem;
 }
@@ -141,10 +136,6 @@
     background: rgba(9, 68, 105, 0.5);
 }
 
-.runnerUpTableBody tr:hover {
-    background:aquamarine;
-}
-
 .runnerUpTableBody td {
     padding: 1rem 0;
     text-align: center;
@@ -159,4 +150,48 @@
 
 .runnerUpTableBody tr:last-child td {
     border-bottom: none;
+}
+
+
+@media screen and (max-width:760px) {
+
+    
+
+
+    .winnerInfo {
+        width: 100%;
+        height: max-content;
+        margin-top: 5% !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    
+
+    .winnerName {
+        height: max-content;
+        width: max-content;
+        border-left: none;
+    }
+
+    .winnerName h2 {
+        font-size: 1rem;
+    }
+
+    .runnerUpTableContainer {
+        margin-top: 1rem;
+        margin-bottom: 2rem ;
+        border-radius: 0rem;
+    }
+
+    .runnerUpTable{
+        width: 100%;
+        border-radius: 0rem;
+    }
+    .table-heading th{
+        font-size: 1rem;
+    }
 }

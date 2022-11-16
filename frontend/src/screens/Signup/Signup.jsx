@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
 import "./Signup.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { signupUser } from "../../redux/reducers/user";
+import { authActions, signupUser } from "../../redux/reducers/user";
 import { useEffect } from "react";
 
 const Register = () => {
@@ -16,6 +16,8 @@ const Register = () => {
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const {user,isAuthenticated,error,message,success} = useSelector((state) => state.user);
@@ -84,14 +86,43 @@ const Register = () => {
 
   useEffect(() => {
     if (error) {
-      
+      toast.error("Signup Failed !!", {
+        style: {
+          fontSize: "18px",
+          letterSpacing: "1px",
+        },
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      dispatch(authActions.reset());
     }
 
-    if (message) {
-      
+    if (success) {
+      toast.success("Signup Success !!", {
+        style: {
+          fontSize: "18px",
+          letterSpacing: "1px",
+        },
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      dispatch(authActions.reset());
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     }
 
-  },[dispatch,error,message,success])
+  },[navigate,dispatch,error,message,success])
 
   return (
     <>

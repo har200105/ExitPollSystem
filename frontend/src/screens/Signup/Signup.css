@@ -20,8 +20,6 @@
     box-shadow: 0 2rem 4rem rgba(35, 33, 33, 0.42);
 }
 
-
-
 .rightSideRegister {
     background: #12181b;
     width: 100%;
@@ -185,4 +183,19 @@ input[type="date"]:before {
 
 input:-webkit-autofill {
     -webkit-text-fill-color: rgb(255, 255, 255) !important;
+}
+
+@media screen and (max-width:760px) {
+    .registerForm{
+        width: fit-content !important;
+    }
+    .nameInfoGrp{
+        flex-direction: column;
+    }
+    .inputBoxRegister{
+        width: 100%;
+    }
+    .registerMain{
+        width: 80%;
+    }
 }

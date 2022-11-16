@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import { loadUserService, loginService, registerService } from "../services/user";
 
 const initialState = {
@@ -51,17 +52,35 @@ const authSlice = createSlice({
             state.isAuthenticated = false;
             state.isAdmin = false;
             state.loading = false;
+            state.success = false;
+            state.error = null;
         },
     },
     extraReducers: {
+        [signupUser.pending]: (state, action) => {
+            state.loading = true;
+        },
+        [signupUser.fulfilled]: (state, action) => {
+            if (action.payload?.success) {
+                console.log("success dd !! ss");
+                state.loading = false;
+                state.success = true;
+            } else {
+                state.loading = false;
+                state.error = action.payload?.error;
+            }
+        },
+
         [loginUser.pending]: (state, action) => {
             state.loading = true;
         },
         [loginUser.fulfilled]: (state, action) => {
             if (action.payload?.success) {
+                console.log("success");
                 state.loading = false;
                 localStorage.setItem("token", action.payload?.token);
                 state.user = action.payload.user;
+                state.success = true;
                 state.isAuthenticated = true;
                 if (action.payload?.user?.role === "admin") {
                     state.isAdmin = true;
@@ -69,7 +88,6 @@ const authSlice = createSlice({
             } else {
                 state.loading = false;
                 state.error = action.payload?.error;
-                state.message = action.payload?.message;
             }
         },
         [loadUser.pending]: (state, action) => {

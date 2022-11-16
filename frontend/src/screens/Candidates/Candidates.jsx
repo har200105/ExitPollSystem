@@ -33,9 +33,9 @@ const Candidates = () => {
 
     setNoCandidates(parseInt(candidateCount));
     setCandidates(data);
-    } catch (e) {
+    } catch (error) {
       console.log("Error");
-      console.log(e);
+      console.log(error);
    }
   };
 

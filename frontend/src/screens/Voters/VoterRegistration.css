@@ -142,3 +142,24 @@
     transform: translateY(-5px);
     background-color: #3b82f6;
 }
+
+@media screen and (max-width:960px) {
+    .formMain{
+        display: flex;
+        width:fit-content;
+    }
+    .VotingRegisterInputField{
+        width: 80%;
+    }
+    .inputVoteBox{
+        width: 80%;
+    }
+
+    .inputVoteBoxGroup{
+        flex-direction: column;
+    }
+    #headingForRegistration{
+        padding: 50px;
+
+    }
+}

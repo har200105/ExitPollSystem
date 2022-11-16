@@ -59,7 +59,7 @@
 }
 
 .phaseBtnChng:hover {
-    background-color: #fa8142;
+    background-color:aquamarine;
     color: rgb(0, 0, 0);
     cursor: pointer;
 }
@@ -83,4 +83,14 @@
 
 .updateResultBtn:hover {
     transform: translateY(-5px);
+}
+
+@media screen and (max-width:768px) {
+    .phaseBtnChng{
+        width: 80%;
+        font-size: 1.5rem;
+    }
+    .updateResultBtn{
+        font-size: 1.5rem;
+    }
 }

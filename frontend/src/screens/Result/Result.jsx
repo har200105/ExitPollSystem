@@ -38,7 +38,6 @@ const Result = () => {
       const resultList = await ElectionContract.connect(
         signer
       ).getUpdatedCandidateList();
-      console.log(resultList);
 
       const winnerId = await ElectionContract.getWinner();
       const winnerDetails = await ElectionContract.candidates(winnerId);
@@ -122,7 +121,7 @@ const Result = () => {
                                
                                 Total Votes :
                                 {parseInt(winnerDetails.partyVotes)}
-                        </h2>
+                              </h2>
                         </div>
                         </div>
                       )}

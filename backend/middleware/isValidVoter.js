@@ -1,8 +1,8 @@
 const VoterIDCard = require("../models/voterIDCards");
 
 exports.isValidVoter = async(req, res, next) => {
-    const voterIdCardNumber = req.user.voterId;
-    const aadharCardNumber = req.user.aadharCardNumber;
+    const voterIdCardNumber = req.body.voterno;
+    const aadharCardNumber = req.body.adharCard;
     const isExist =  await VoterIDCard.findOne({
             $and: 
             [{ voterIdCardNumber: voterIdCardNumber },
@@ -12,6 +12,6 @@ exports.isValidVoter = async(req, res, next) => {
         req.isValid = true; 
         next();
     } else {
-        res.status(401).json("Token Not Found Please Login First");
+        res.status(401).json("Invalid Voter");
     }
 }

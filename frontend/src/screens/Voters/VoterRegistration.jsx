@@ -27,6 +27,7 @@ const VoteRegistration = () => {
 
   const { user } = useSelector((state) => state.user);
 
+
   const checkState = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const ElectionContract = new ethers.Contract(
@@ -113,19 +114,20 @@ const VoteRegistration = () => {
   };
   const RegisterVoter = async (e) => {
     
+    try {
     e.preventDefault();
-    const { adharCard, voterno, birthdate, age, city, rstate, address } = voterDetails;
+      const { adharCard, voterno, birthdate, age, city, rstate, address } = voterDetails;
     
-      const response = await API.post('/api/voteregistration',{
-          cid: user?._id,
-          adharCard,
-          voterno,
-          birthdate,
-          age,
-          city,
-          rstate,
-          address,
-        })
+      const response = await API.post('/api/voteregistration', {
+        cid: user?._id,
+        adharCard,
+        voterno,
+        birthdate,
+        age,
+        city,
+        rstate,
+        address,
+      })
       const data = response.data;
 
       if (response.status === 201) {
@@ -146,8 +148,9 @@ const VoteRegistration = () => {
           addVoterToBlockchain(voterDetails.voterno);
         }, 1500);
 
-      } else if (response.status === 409) {
-        toast.error(data, {
+      }
+    } catch (e) {
+      toast.error(e.response.data, {
           style: {
             fontSize: "15px",
             letterSpacing: "1px",
@@ -160,21 +163,7 @@ const VoteRegistration = () => {
           draggable: true,
           progress: undefined,
         });
-      } else {
-        toast.error(data, {
-          style: {
-            fontSize: "15px",
-            letterSpacing: "1px",
-          },
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-        });
-      } 
+    }
   }
 
   return (

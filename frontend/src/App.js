@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import Home from "./screens/Home/Home";
 import Welcome from "./screens/Welcome/Welcome";
@@ -20,7 +20,7 @@ import { ProtectedRoute } from "protected-route-react";
 
 const App = () => {
 
-  const { user, isAuthenticated,isAdmin } = useSelector((state) => state.user);
+  const { user,isAuthenticated,isAdmin } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
 
@@ -39,6 +39,7 @@ const App = () => {
     });
   }, []);
 
+ 
 
 
   return (
@@ -56,12 +57,12 @@ const App = () => {
         } />
           <Route exact path="/admin-welcome"
             element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
                 isAdmin={isAdmin}
                 adminRoute={true}
                 redirect="/login"
-                redirectAdmin="/login"
-            >
+                redirectAdmin="/login">
               <AdminWelcome/>
             </ProtectedRoute>
             }
@@ -69,13 +70,15 @@ const App = () => {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Register/>} />
           <Route exact path="/result" element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
               redirect="/login"
             >
               <Result/>
             </ProtectedRoute>
         } />
-          <Route exact path="/voter-registration" element={
+          <Route exact path="/voter-registration"
+            element={
             <ProtectedRoute isAuthenticated={isAuthenticated}
               redirect="/login"
             >
@@ -107,7 +110,8 @@ const App = () => {
             </ProtectedRoute>
            } />
           <Route exact path="/change-phase" element={
-             <ProtectedRoute isAuthenticated={isAuthenticated}
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
               isAdmin={isAdmin}
               adminRoute={true}
               redirect="/login"

@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const authentication = require("../middleware/authenticate");
 const { authorizeAdmin } = require("../middleware/authenticationForAdmin");
+const { isValidVoter } = require("../middleware/isValidVoter");
 
 
 router.get("/api/me", authentication, (req, res) => {
@@ -35,8 +36,8 @@ router.post("/api/register", async (req, res) => {
         email,
         password: newHashPassword,
       });
-      const result = await newVoter.save();
-      res.json(JSON.stringify(result)).status(201);
+      await newVoter.save();
+      res.json({success:true}).status(201);
   }
 });
 
@@ -61,20 +62,15 @@ router.post("/api/login", async (req, res) => {
 
       res.status(200).json({success:true,user:findVoter,token});
     } else {
-      res.status(401).json("Login failed Invalid Cradentials");
+      res.status(200).json({success:true,error:"Login failed Invalid Cradentials"});
     }
   } else {
     res.status(400).json("Email not found");
   }
 });
 
-router.get("/api/voteregistration", authentication, async(req, res) => {
-  await Voter.findById(req.user._id).then((data) => {
-      res.status(200).json(data);
-  });
-});
 
-router.post("/api/voteregistration", async (req, res) => {
+router.post("/api/voteregistration",isValidVoter,async (req, res) => {
   try {
     const { cid, adharCard, voterno, birthdate, age, city, rstate, address } =
       req.body;

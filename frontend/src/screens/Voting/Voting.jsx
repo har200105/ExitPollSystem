@@ -25,8 +25,6 @@ const VotingArea = () => {
 
     const data = await ElectionContract.allCandidates();
     const phase = await ElectionContract.ElectionPhase();
-    console.log(phase);
-    console.log(data);
     const CCount = await ElectionContract.candidatesCount();
     setPhaseOfElec(phase);
     setCandidates(data);

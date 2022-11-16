@@ -15,7 +15,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  const {user,isAuthenticated,error,message,success,isAdmin} = useSelector((state) => state.user);
+  const { user, isAuthenticated, error, message, success, isAdmin, loading } =
+    useSelector((state) => state.user);
 
   const ValidateEmail = (email) => {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
@@ -44,8 +45,6 @@ const Login = () => {
           progress: undefined,
         });
       } else {
-
-
         dispatch(loginUser({email,password}));
       }
     } else {
@@ -67,6 +66,46 @@ const Login = () => {
   };
 
   useEffect(() => {
+
+    if(success){
+        toast.success("Login Success !!", {
+        style: {
+          fontSize: "18px",
+          letterSpacing: "1px",
+        },
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+          dispatch(authActions.reset());
+    }
+
+    if (error) {
+      console.log("error");
+      toast.error("Login Failed !!", {
+        style: {
+          fontSize: "18px",
+          letterSpacing: "1px",
+        },
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      dispatch(authActions.reset());
+    }
+
+  }, [isAuthenticated, error,success,loading]);
+    
+
+  useEffect(() => {
     if (isAdmin && isAuthenticated) {
        navigate("/admin-welcome");
     } else if (!isAdmin && isAuthenticated) {
@@ -75,8 +114,10 @@ const Login = () => {
     if (error) {
       console.log(`Error Occurred`);
     }
-    dispatch(authActions.reset());
-  },[dispatch,navigate,isAuthenticated,isAdmin])
+  }, [dispatch, navigate, isAuthenticated, isAdmin]);
+
+
+  
 
   return (
     <>
@@ -93,7 +134,7 @@ const Login = () => {
             </div>
 
             <h3>Login Here</h3>
-            <form action="/login" method="post" className="formOfLogin">
+            <form className="formOfLogin">
               <div className="inputBox">
                 <i className="fa-solid fa-user"></i>
                 <input
@@ -127,9 +168,6 @@ const Login = () => {
             <div className="moreoption">
               <h5>Not registered yet ? </h5>
               <NavLink to="/signup">Create an Account</NavLink>
-            </div>
-             <div className="moreoption1">
-              <NavLink to="/signup">Forget Password</NavLink>
             </div>
           </div>
         </div>
