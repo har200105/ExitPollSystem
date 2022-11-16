@@ -15,6 +15,11 @@ It's a blockchain based Full stack Exit poll system for Indian elecions.More spe
 * Express JS
 * MongoDB
 
+
+# Youtube Video for Complete Demonstration of the project
+<a href="https://youtu.be/IFph8HVXUKg" target="_blank">Video Link</a>
+
+
 # Screen shots of the Project 
 
 
